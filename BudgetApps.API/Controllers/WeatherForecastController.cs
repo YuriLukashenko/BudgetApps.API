@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using BudgetApps.API.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Identity.Web.Resource;
@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BudgetApps.API.Controllers
 {
-    //[Authorize]
+    [CustomAuthorize]
     [ApiController]
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
@@ -32,8 +32,6 @@ namespace BudgetApps.API.Controllers
         [HttpGet]
         public IEnumerable<WeatherForecast> Get()
         {
-            //HttpContext.VerifyUserHasAnyAcceptedScope(scopeRequiredByApi);
-
             var rng = new Random();
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
