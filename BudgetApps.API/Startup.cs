@@ -17,6 +17,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BudgetApps.API.Services.Flux;
 
 namespace BudgetApps.API
 {
@@ -24,16 +25,16 @@ namespace BudgetApps.API
     {
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            _configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
+        public IConfiguration _configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             // configure strongly typed settings object
-            services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
+            services.Configure<AppSettings>(_configuration.GetSection("AppSettings"));
 
             services.AddControllers();
             services.AddCors();
@@ -44,6 +45,9 @@ namespace BudgetApps.API
 
             // configure DI for application services
             services.AddScoped<IUserService, UserService>();
+            services.AddTransient<IConnectionService, DbConnectionService>();
+
+            services.AddScoped<FluxService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
