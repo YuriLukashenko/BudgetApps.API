@@ -3,19 +3,39 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BudgetApps.API.DTOs.Flux;
-using BudgetApps.API.Entities.Flux;
+using BudgetApps.API.Entities.FluxArea;
 using BudgetApps.API.Interfaces;
+using BudgetApps.API.ViewModels;
 using Dapper;
 
 namespace BudgetApps.API.Services.Flux
 {
-    public class FluxService
+    public class FluxService : EntityBaseService
     {
         private readonly IConnectionService _connectionService;
-        public FluxService(IConnectionService connectionService)
+        public FluxService(IConnectionService connectionService) : base(connectionService)
         {
             _connectionService = connectionService;
         }
+
+        #region Entities
+
+        public IEnumerable<Entities.FluxArea.Flux> GetFluxes()
+        {
+            return GetAll<Entities.FluxArea.Flux>();
+        }
+
+        public IEnumerable<FluxHistory> GetFluxHistories()
+        {
+            return GetAll<FluxHistory>();
+        }
+
+        public IEnumerable<FluxTypes> GetFluxTypes()
+        {
+            return GetAll<FluxTypes>();
+        }
+
+        #endregion
 
         public IEnumerable<FluxViewModel> GetFlux2021()
         {

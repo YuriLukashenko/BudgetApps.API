@@ -20,10 +20,24 @@ namespace BudgetApps.API.Controllers.Flux
             _fluxService = fluxService;
         }
 
-        [HttpGet]
-        public IActionResult Index()
+        [HttpGet("current")]
+        public IActionResult GetCurrent()
         {
-            var response = _fluxService.GetFlux2021();
+            var response = _fluxService.GetFluxes();
+            return Ok(response);
+        }
+
+        [HttpGet("history")]
+        public IActionResult GetHistory()
+        {
+            var response = _fluxService.GetFluxHistories();
+            return Ok(response);
+        }
+
+        [HttpGet("types")]
+        public IActionResult GetTypes()
+        {
+            var response = _fluxService.GetFluxTypes();
             return Ok(response);
         }
     }

@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Threading.Tasks;
 using BudgetApps.API.DTOs.Flux;
 
-namespace BudgetApps.API.Entities.Flux
+namespace BudgetApps.API.ViewModels
 {
     public class FluxViewModel
     {
