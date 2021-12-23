@@ -19,8 +19,7 @@ namespace BudgetApps.API.Services
         // users hardcoded for simplicity, store in a db with hashed passwords in production applications
         private List<User> _users = new List<User>
         {
-            new User { Id = 1, FirstName = "Test", LastName = "User", Username = "test", Password = "test" },
-            new User { Id = 2, FirstName = "Yurii", LastName = "Yurii", Username = "Yurii", Password = "Yurii" }
+            new User { UserId = Guid.Parse("e11de42a-5599-442c-8ba3-792e55c50f25"), FirstName = "Yurii", LastName = "Yurii", UserName = "Yurii", Password = "Yurii" }
         };
 
         private readonly AppSettings _appSettings;
@@ -32,7 +31,7 @@ namespace BudgetApps.API.Services
 
         public AuthenticateResponse Authenticate(AuthenticateRequest model)
         {
-            var user = _users.SingleOrDefault(x => x.Username == model.Username && x.Password == model.Password);
+            var user = _users.SingleOrDefault(x => x.UserName == model.Username && x.Password == model.Password);
 
             // return null if user not found
             if (user == null) return null;
@@ -48,9 +47,9 @@ namespace BudgetApps.API.Services
             return _users;
         }
 
-        public User GetById(int id)
+        public User GetById(Guid id)
         {
-            return _users.FirstOrDefault(x => x.Id == id);
+            return _users.FirstOrDefault(x => x.UserId == id);
         }
 
         private string GenerateJwtToken(User user)
@@ -60,7 +59,7 @@ namespace BudgetApps.API.Services
             var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(new[] { new Claim("id", user.Id.ToString()) }),
+                Subject = new ClaimsIdentity(new[] { new Claim("id", user.UserId.ToString()) }),
                 Expires = DateTime.UtcNow.AddDays(7),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
