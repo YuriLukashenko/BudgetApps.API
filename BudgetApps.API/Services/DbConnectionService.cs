@@ -13,16 +13,16 @@ namespace BudgetApps.API.Services
 {
     public class DbConnectionService : IConnectionService
     {
-        private readonly IOptions<AppSettings> _config;
+        private readonly AppSettings _appSettings;
         public DbConnectionService(IOptions<AppSettings> config)
         {
-            _config = config;
+            _appSettings = config?.Value;
         }
         public NpgsqlConnection Connect()
         {
             try
             {
-                var connect = _config.Value.DbConnector;
+                var connect = _appSettings.DbConnector;
                 return new NpgsqlConnection($"Host={connect.Host};Port={connect.Port};Username={connect.Username};Password={connect.Password};Database={connect.Database};");
             }
             catch

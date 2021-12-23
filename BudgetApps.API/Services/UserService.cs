@@ -11,22 +11,23 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Dapper;
 
 namespace BudgetApps.API.Services
 {
     public class UserService : IUserService
     {
         // users hardcoded for simplicity, store in a db with hashed passwords in production applications
-        private List<User> _users = new List<User>
-        {
-            new User { UserId = Guid.Parse("e11de42a-5599-442c-8ba3-792e55c50f25"), FirstName = "Yurii", LastName = "Yurii", UserName = "Yurii", Password = "Yurii" }
-        };
+        private IEnumerable<User> _users;
 
         private readonly AppSettings _appSettings;
+        private readonly IConnectionService _connectionService;
 
-        public UserService(IOptions<AppSettings> appSettings)
+        public UserService(IOptions<AppSettings> appSettings, IConnectionService connectionService)
         {
             _appSettings = appSettings.Value;
+            _connectionService = connectionService;
+            _users = GetUsersFromDb();
         }
 
         public AuthenticateResponse Authenticate(AuthenticateRequest model)
@@ -50,6 +51,20 @@ namespace BudgetApps.API.Services
         public User GetById(Guid id)
         {
             return _users.FirstOrDefault(x => x.UserId == id);
+        }
+
+        private IEnumerable<User> GetUsersFromDb()
+        {
+            IEnumerable<User> response = null;
+            using (var connection = _connectionService.Connect())
+            {
+                connection.Open();
+
+                response = connection.Query<User>("select * from dbo.users");
+                connection.Close();
+            }
+
+            return response;
         }
 
         private string GenerateJwtToken(User user)

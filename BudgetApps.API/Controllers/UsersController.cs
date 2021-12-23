@@ -22,22 +22,6 @@ namespace BudgetApps.API.Controllers
             _connectionService = connectionService;
         }
 
-        [HttpGet("connect")]
-        public IActionResult Connect()
-        {
-            IEnumerable<string> s;
-            using (var connection = _connectionService.Connect())
-            {
-                connection.Open();
-
-                s = connection.Query<string>("SELECT fop_balance.value " +
-                                         "FROM dbo.fop_balance AS fop_balance " +
-                                         "WHERE fop_balance.type = 'Working' ");
-                connection.Close();
-            }
-            return Ok(s);
-        }
-
         [HttpPost("authenticate")]
         public IActionResult Authenticate(AuthenticateRequest model)
         {

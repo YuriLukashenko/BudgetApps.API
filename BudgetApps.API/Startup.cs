@@ -48,6 +48,7 @@ namespace BudgetApps.API
             services.AddTransient<IConnectionService, DbConnectionService>();
 
             services.AddScoped<FluxService>();
+            Dapper.DefaultTypeMap.MatchNamesWithUnderscores = true;
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
