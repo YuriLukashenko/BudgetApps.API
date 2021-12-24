@@ -50,6 +50,7 @@ namespace BudgetApps.API
 
             services.AddScoped<FluxService>();
             services.AddScoped<RefluxService>();
+            services.AddScoped<SalaryService>();
 
             services.AddScoped<QueryBuilder>();
 
