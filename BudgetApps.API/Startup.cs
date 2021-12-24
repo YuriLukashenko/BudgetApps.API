@@ -48,6 +48,7 @@ namespace BudgetApps.API
             services.AddTransient<IConnectionService, DbConnectionService>();
 
             services.AddScoped<FluxService>();
+            services.AddScoped<RefluxService>();
             Dapper.DefaultTypeMap.MatchNamesWithUnderscores = true;
         }
 
