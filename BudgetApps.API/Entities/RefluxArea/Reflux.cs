@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BudgetApps.API.Attributes;
 
 namespace BudgetApps.API.Entities.RefluxArea
 {
     public class Reflux
     {
+        [Identifier]
         public int RId { get; set; }
         public int RtId { get; set; }
         public double Value { get; set; }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using BudgetApps.API.DTOs.Flux;
 using BudgetApps.API.Entities.FluxArea;
+using BudgetApps.API.Helpers.Builders;
 using BudgetApps.API.Interfaces;
 using BudgetApps.API.ViewModels;
 using Dapper;
@@ -13,7 +14,7 @@ namespace BudgetApps.API.Services.Flux
     public class FluxService : EntityBaseService
     {
         private readonly IConnectionService _connectionService;
-        public FluxService(IConnectionService connectionService) : base(connectionService)
+        public FluxService(IConnectionService connectionService, QueryBuilder queryBuilder) : base(connectionService, queryBuilder)
         {
             _connectionService = connectionService;
         }

@@ -7,5 +7,15 @@ namespace BudgetApps.API.Helpers.Builders
 {
     public class QueryBuilder
     {
+        public string BuildGetAllQuery(QueryContext context)
+        {
+            return PostgresStringBuilder.Create(context)
+                .Command()
+                .All()
+                .From()
+                .Table()
+                .OrderBy()
+                .Generate();
+        }
     }
 }

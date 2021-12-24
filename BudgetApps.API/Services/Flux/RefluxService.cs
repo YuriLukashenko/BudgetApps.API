@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BudgetApps.API.Entities.RefluxArea;
+using BudgetApps.API.Helpers.Builders;
 using BudgetApps.API.Interfaces;
 
 namespace BudgetApps.API.Services.Flux
@@ -10,7 +11,7 @@ namespace BudgetApps.API.Services.Flux
     public class RefluxService : EntityBaseService
     {
         private readonly IConnectionService _connectionService;
-        public RefluxService(IConnectionService connectionService) : base(connectionService)
+        public RefluxService(IConnectionService connectionService, QueryBuilder queryBuilder) : base(connectionService, queryBuilder)
         {
             _connectionService = connectionService;
         }   

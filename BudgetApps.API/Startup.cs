@@ -17,6 +17,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BudgetApps.API.Helpers.Builders;
 using BudgetApps.API.Services.Flux;
 
 namespace BudgetApps.API
@@ -49,6 +50,9 @@ namespace BudgetApps.API
 
             services.AddScoped<FluxService>();
             services.AddScoped<RefluxService>();
+
+            services.AddScoped<QueryBuilder>();
+
             Dapper.DefaultTypeMap.MatchNamesWithUnderscores = true;
         }
 
