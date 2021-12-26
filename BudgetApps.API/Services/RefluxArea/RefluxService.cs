@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using BudgetApps.API.Entities.RefluxArea;
 using BudgetApps.API.Helpers.Builders;
 using BudgetApps.API.Interfaces;
 
-namespace BudgetApps.API.Services.Flux
+namespace BudgetApps.API.Services.RefluxArea
 {
     public class RefluxService : EntityBaseService
     {

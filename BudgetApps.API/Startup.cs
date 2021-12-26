@@ -18,7 +18,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BudgetApps.API.Helpers.Builders;
-using BudgetApps.API.Services.Flux;
+using BudgetApps.API.Services.CaseArea;
+using BudgetApps.API.Services.FluxArea;
+using BudgetApps.API.Services.RefluxArea;
+using BudgetApps.API.Services.SalaryArea;
 
 namespace BudgetApps.API
 {
@@ -51,6 +54,7 @@ namespace BudgetApps.API
             services.AddScoped<FluxService>();
             services.AddScoped<RefluxService>();
             services.AddScoped<SalaryService>();
+            services.AddScoped<CaseService>();
 
             services.AddScoped<QueryBuilder>();
 

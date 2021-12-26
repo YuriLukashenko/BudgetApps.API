@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using BudgetApps.API.DTOs.Flux;
 using BudgetApps.API.Entities.FluxArea;
 using BudgetApps.API.Helpers.Builders;
@@ -9,7 +6,7 @@ using BudgetApps.API.Interfaces;
 using BudgetApps.API.ViewModels;
 using Dapper;
 
-namespace BudgetApps.API.Services.Flux
+namespace BudgetApps.API.Services.FluxArea
 {
     public class FluxService : EntityBaseService
     {

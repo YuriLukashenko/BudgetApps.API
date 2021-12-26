@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BudgetApps.API.Helpers;
-using BudgetApps.API.Services.Flux;
+using BudgetApps.API.Services.SalaryArea;
 
 namespace BudgetApps.API.Controllers.Salary
 {
@@ -48,7 +48,7 @@ namespace BudgetApps.API.Controllers.Salary
             return Ok(response);
         }
 
-        [HttpGet("bonus-types")]
+        [HttpGet("bonus/types")]
         public IActionResult GetSalaryBonusTypes()
         {
             var response = _salaryService.GetSalaryBonusTypes();

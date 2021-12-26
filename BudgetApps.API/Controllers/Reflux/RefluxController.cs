@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BudgetApps.API.Helpers;
-using BudgetApps.API.Services.Flux;
+using BudgetApps.API.Services.RefluxArea;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BudgetApps.API.Controllers.Flux
