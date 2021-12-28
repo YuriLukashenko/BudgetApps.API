@@ -18,9 +18,9 @@ namespace BudgetApps.API.Services.FluxArea
 
         #region Entities
 
-        public IEnumerable<Entities.FluxArea.Flux> GetFluxes()
+        public IEnumerable<Flux> GetFluxes()
         {
-            return GetAll<Entities.FluxArea.Flux>();
+            return GetAll<Flux>();
         }
 
         public IEnumerable<FluxHistory> GetFluxHistories()

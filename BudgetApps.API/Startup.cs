@@ -22,6 +22,7 @@ using BudgetApps.API.Services.BetArea;
 using BudgetApps.API.Services.CaseArea;
 using BudgetApps.API.Services.EwerArea;
 using BudgetApps.API.Services.FluxArea;
+using BudgetApps.API.Services.FundArea;
 using BudgetApps.API.Services.RefluxArea;
 using BudgetApps.API.Services.SalaryArea;
 
@@ -59,6 +60,7 @@ namespace BudgetApps.API
             services.AddScoped<CaseService>();
             services.AddScoped<BetService>();
             services.AddScoped<EwerService>();
+            services.AddScoped<FundService>();
 
             services.AddScoped<QueryBuilder>();
 
