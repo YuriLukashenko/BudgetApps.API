@@ -46,5 +46,12 @@ namespace BudgetApps.API.Controllers.EwerArea
             var response = _ewerService.GetEwerCurrencyTypes();
             return Ok(response);
         }
+
+        [HttpGet("exchanges/closed")]
+        public IActionResult GetClosedExchanges()
+        {
+            var response = _ewerService.GetClosedExchanges();
+            return Ok(response);
+        }
     }
 }

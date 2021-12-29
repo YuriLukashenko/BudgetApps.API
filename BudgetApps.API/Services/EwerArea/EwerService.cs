@@ -35,6 +35,11 @@ namespace BudgetApps.API.Services.EwerArea
             return GetAll<EwerSpend>();
         }
 
+        public IEnumerable<ClosedExchanges> GetClosedExchanges()
+        {
+            return GetAll<ClosedExchanges>();
+        }
+
         #endregion
     }
 }
