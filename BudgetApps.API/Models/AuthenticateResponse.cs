@@ -15,12 +15,12 @@ namespace BudgetApps.API.Models
         public string Token { get; set; }
 
 
-        public AuthenticateResponse(User user, string token)
+        public AuthenticateResponse(Users users, string token)
         {
-            UserId = user.UserId;
-            FirstName = user.FirstName;
-            LastName = user.LastName;
-            Username = user.UserName;
+            UserId = users.UserId;
+            FirstName = users.FirstName;
+            LastName = users.LastName;
+            Username = users.UserName;
             Token = token;
         }
     }

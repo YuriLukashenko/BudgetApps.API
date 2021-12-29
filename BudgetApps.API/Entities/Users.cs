@@ -7,7 +7,7 @@ using BudgetApps.API.Attributes;
 
 namespace BudgetApps.API.Entities
 {
-    public class User
+    public class Users
     {
         [Identifier]
         public Guid UserId { get; set; }

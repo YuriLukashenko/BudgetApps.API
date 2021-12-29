@@ -10,7 +10,7 @@ namespace BudgetApps.API.Interfaces
     public interface IUserService
     {
         AuthenticateResponse Authenticate(AuthenticateRequest model);
-        IEnumerable<User> GetAll();
-        User GetById(Guid userId);
+        IEnumerable<Users> GetAll();
+        Users GetById(Guid userId);
     }
 }
