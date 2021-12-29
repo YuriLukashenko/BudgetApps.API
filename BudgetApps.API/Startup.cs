@@ -23,6 +23,7 @@ using BudgetApps.API.Services.CaseArea;
 using BudgetApps.API.Services.CreditArea;
 using BudgetApps.API.Services.EwerArea;
 using BudgetApps.API.Services.FluxArea;
+using BudgetApps.API.Services.FopArea;
 using BudgetApps.API.Services.FundArea;
 using BudgetApps.API.Services.RefluxArea;
 using BudgetApps.API.Services.SalaryArea;
@@ -65,6 +66,7 @@ namespace BudgetApps.API
             services.AddScoped<FundService>();
             services.AddScoped<StackService>();
             services.AddScoped<CreditService>();
+            services.AddScoped<FopService>();
 
             services.AddScoped<QueryBuilder>();
 
