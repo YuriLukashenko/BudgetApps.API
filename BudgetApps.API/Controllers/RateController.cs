@@ -13,8 +13,8 @@ namespace BudgetApps.API.Controllers
     [Route("[controller]")]
     public class RateController : Controller
     {
-        private readonly CurrentRateService _currentRateService;
-        public RateController(CurrentRateService currentRateService)
+        private readonly RateService _currentRateService;
+        public RateController(RateService currentRateService)
         {
             _currentRateService = currentRateService;
         }

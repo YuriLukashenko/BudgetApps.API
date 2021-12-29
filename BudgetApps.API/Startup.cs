@@ -25,6 +25,7 @@ using BudgetApps.API.Services.EwerArea;
 using BudgetApps.API.Services.FluxArea;
 using BudgetApps.API.Services.FopArea;
 using BudgetApps.API.Services.FundArea;
+using BudgetApps.API.Services.LocationArea;
 using BudgetApps.API.Services.RefluxArea;
 using BudgetApps.API.Services.SalaryArea;
 using BudgetApps.API.Services.StackArea;
@@ -67,7 +68,8 @@ namespace BudgetApps.API
             services.AddScoped<StackService>();
             services.AddScoped<CreditService>();
             services.AddScoped<FopService>();
-            services.AddScoped<CurrentRateService>();
+            services.AddScoped<RateService>();
+            services.AddScoped<LocationService>();
 
             services.AddScoped<QueryBuilder>();
 

@@ -8,9 +8,9 @@ using BudgetApps.API.Interfaces;
 
 namespace BudgetApps.API.Services
 {
-    public class CurrentRateService : EntityBaseService
+    public class RateService : EntityBaseService
     {
-        public CurrentRateService(IConnectionService connectionService, QueryBuilder queryBuilder) : base(
+        public RateService(IConnectionService connectionService, QueryBuilder queryBuilder) : base(
             connectionService, queryBuilder)
         {
         }
