@@ -67,6 +67,7 @@ namespace BudgetApps.API
             services.AddScoped<StackService>();
             services.AddScoped<CreditService>();
             services.AddScoped<FopService>();
+            services.AddScoped<CurrentRateService>();
 
             services.AddScoped<QueryBuilder>();
 
