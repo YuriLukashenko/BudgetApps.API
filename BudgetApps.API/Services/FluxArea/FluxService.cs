@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using BudgetApps.API.DTOs.Flux;
 using BudgetApps.API.Entities.FluxArea;
 using BudgetApps.API.Helpers.Builders;
@@ -35,18 +36,46 @@ namespace BudgetApps.API.Services.FluxArea
 
         #endregion
 
-        public IEnumerable<FluxViewModel> GetFlux2021()
+        public IEnumerable<FluxHistory> GetFluxesByYear(int id)
         {
-            IEnumerable<FluxViewDTO> response = null;
-            using (var connection = _connectionService.Connect())
-            {
-                connection.Open();
+            var fluxHistory = GetFluxHistories();
 
-                response = connection.Query<FluxViewDTO>("select * from dbo.flux_2021");
-                connection.Close();
-            }
+            return fluxHistory.Where(x => x.Date.Year == id);
+        }
+        public double GetFluxesSumByYear(int id)
+        {
+            var fluxByYear = GetFluxesByYear(id);
 
-            return FluxViewModel.MapFrom(response);
+            return fluxByYear.Sum(x => x.Value);
+        }
+
+        public IEnumerable<MonthProfit> GetFluxesMonthProfits()
+        {
+            var fluxHistory = GetFluxHistories();
+
+            return fluxHistory
+                .GroupBy(x => new { x.Date.Year, x.Date.Month })
+                .OrderBy(x => x.First().Date)
+                .Select(x => new MonthProfit()
+                {
+                    Date = x.First().Date,
+                    MonthSum = x.Sum(y => y.Value)
+                });
+        }
+
+
+        public IEnumerable<MonthProfit> GetFluxesMonthProfitsByYear(int id)
+        {
+            var fluxByYear = GetFluxesByYear(id);
+
+            return fluxByYear
+                .GroupBy(x => x.Date.Month)
+                .OrderBy(x => x.Key)
+                .Select(x => new MonthProfit()
+                {
+                    Date = x.First().Date,
+                    MonthSum = x.Sum(y => y.Value)
+                });
         }
     }
 }
