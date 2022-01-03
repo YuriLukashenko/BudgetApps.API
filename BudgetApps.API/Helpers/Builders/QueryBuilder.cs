@@ -17,5 +17,16 @@ namespace BudgetApps.API.Helpers.Builders
                 .OrderBy()
                 .Generate();
         }
+
+        public string BuildGetByIdQuery(QueryContext context)
+        {
+            return PostgresStringBuilder.Create(context)
+                .Command()
+                .All()
+                .From()
+                .Table()
+                .Where(context.Id)
+                .Generate();
+        }
     }
 }

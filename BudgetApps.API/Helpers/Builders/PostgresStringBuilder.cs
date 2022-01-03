@@ -55,6 +55,18 @@ namespace BudgetApps.API.Helpers.Builders
             return this;
         }
 
+        public PostgresStringBuilder Where()
+        {
+            _builder.Append($" where");
+            return this;
+        }
+
+        public PostgresStringBuilder Where(int id)
+        {
+            _builder.Append($" where {_context.TableName}.{_context.Field.FieldName}={id}");
+            return this;
+        }
+
         public string Generate()
         {
             return _builder.ToString();

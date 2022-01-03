@@ -12,6 +12,8 @@ namespace BudgetApps.API.Helpers.Builders
         public CommandsDefinition Command { get; set; }
         public string TableName { get; set; }
         public FieldOrder FieldOrder { get; set; }
+        public Field Field { get; set; }
+        public int Id { get; set; }
         public string GetCommandName() => GetCommandName(Command);
 
         public string GetOrderName() => GetOrderName(FieldOrder.Order);

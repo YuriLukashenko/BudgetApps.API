@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BudgetApps.API.Attributes;
+using BudgetApps.API.DTOs;
 using BudgetApps.API.Helpers;
 using BudgetApps.API.Helpers.Builders;
 using BudgetApps.API.Helpers.FieldComponents;
@@ -22,28 +23,10 @@ namespace BudgetApps.API.Services
             _queryBuilder = queryBuilder;
         }
 
-        public IEnumerable<T> GetAll<T>()
+        private IEnumerable<T> SendRequest<T>(string query)
         {
             IEnumerable<T> response = null;
-            var className = typeof(T).Name;
-            var idName = AttributeHelper.GetPropName<T>();
 
-            var snakeCasedClassName = NameMapper.ToSnakeCase(className);
-            var snakeCasedIdName = NameMapper.ToSnakeCase(idName);
-
-            var context = new QueryContext()
-            {
-                Command = QueryContext.CommandsDefinition.Select,
-                FieldOrder = new FieldOrder()
-                {
-                    FieldName = snakeCasedIdName,
-                    Order = FieldOrder.OrderDefinition.Asc
-                },
-                TableName = snakeCasedClassName
-            };
-
-            var query = _queryBuilder.BuildGetAllQuery(context);
-            
             using (var connection = _connectionService.Connect())
             {
                 connection.Open();
@@ -54,5 +37,46 @@ namespace BudgetApps.API.Services
             return response;
         }
 
+        public IEnumerable<T> GetAll<T>()
+        {
+            var baseConfig = EntityQueryConfig.GetConfigByType<T>();
+
+            var context = new QueryContext()
+            {
+                Command = QueryContext.CommandsDefinition.Select,
+                FieldOrder = new FieldOrder()
+                {
+                    FieldName = baseConfig.SnakeCasedIdName,
+                    Order = FieldOrder.OrderDefinition.Asc
+                },
+                TableName = baseConfig.SnakeCasedClassName
+            };
+
+            var query = _queryBuilder.BuildGetAllQuery(context);
+            
+            return SendRequest<T>(query);
+        }
+
+        public T GetById<T>(int id)
+        {
+            var baseConfig = EntityQueryConfig.GetConfigByType<T>();
+
+            var context = new QueryContext()
+            {
+                Command = QueryContext.CommandsDefinition.Select,
+                TableName = baseConfig.SnakeCasedClassName,
+                Field = new Field()
+                {
+                    FieldName = baseConfig.SnakeCasedIdName,
+                },
+                Id = id
+            };
+
+            var query = _queryBuilder.BuildGetByIdQuery(context);
+
+            var response = SendRequest<T>(query);
+
+            return response.SingleOrDefault();
+        }
     }
 }
