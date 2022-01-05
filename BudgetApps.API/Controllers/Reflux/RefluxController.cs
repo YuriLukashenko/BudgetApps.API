@@ -54,5 +54,19 @@ namespace BudgetApps.API.Controllers.Flux
             var response = _refluxService.GetRefluxByCaterogies();
             return Ok(response);
         }
+
+        [HttpGet("categories/{year}")]
+        public IActionResult GetRefluxByCaterogiesByYear(int year)
+        {
+            var response = _refluxService.GetRefluxByCategoriesByYear(year);
+            return Ok(response);
+        }
+
+        [HttpGet("categories/years")]
+        public IActionResult GetRefluxByCaterogiesByYears()
+        {
+            var response = _refluxService.GetRefluxByCategoriesByYears();
+            return Ok(response);
+        }
     }
 }

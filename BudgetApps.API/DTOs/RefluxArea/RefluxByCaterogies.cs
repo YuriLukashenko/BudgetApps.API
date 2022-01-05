@@ -10,5 +10,9 @@ namespace BudgetApps.API.DTOs.RefluxArea
         public int RtId { get; set; }
         public string TypeName { get; set; }
         public double Sum { get; set; }
+
+        public double Sum2019 { get; set; }
+        public double Sum2020 { get; set; }
+        public double Sum2021 { get; set; }
     }
 }

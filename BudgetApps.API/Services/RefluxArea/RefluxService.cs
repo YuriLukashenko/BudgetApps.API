@@ -52,12 +52,61 @@ namespace BudgetApps.API.Services.RefluxArea
             var refluxHistory = GetRefluxHistories();
 
             var grouped = refluxHistory
-                .Where(x => x.Date.Year >= 2021)
                 .GroupBy(x => new {x.RtId})
                 .Select(x => new RefluxByCaterogies()
                 {
                     RtId = x.First().RtId,
                     Sum = x.Sum(y => y.Value)
+                })
+                .OrderBy(x => x.Sum)
+                .ToList();
+
+            foreach (var group in grouped)
+            {
+                var type = GetById<RefluxTypes>(group.RtId);
+                group.TypeName = type.Name;
+            }
+
+            return grouped;
+        }
+
+        public IEnumerable<RefluxByCaterogies> GetRefluxByCategoriesByYear(int year)
+        {
+            var refluxHistory = GetRefluxHistories();
+
+            var grouped = refluxHistory
+                .Where(x => x.Date.Year == year)
+                .GroupBy(x => new { x.RtId })
+                .Select(x => new RefluxByCaterogies()
+                {
+                    RtId = x.First().RtId,
+                    Sum = x.Sum(y => y.Value)
+                })
+                .OrderBy(x => x.Sum)
+                .ToList();
+
+            foreach (var group in grouped)
+            {
+                var type = GetById<RefluxTypes>(group.RtId);
+                group.TypeName = type.Name;
+            }
+
+            return grouped;
+        }
+
+        public IEnumerable<RefluxByCaterogies> GetRefluxByCategoriesByYears()
+        {
+            var refluxHistory = GetRefluxHistories();
+
+            var grouped = refluxHistory
+                .GroupBy(x => new { x.RtId })
+                .Select(x => new RefluxByCaterogies()
+                {
+                    RtId = x.First().RtId,
+                    Sum = x.Sum(y => y.Value),
+                    Sum2019 = x.Where(y => y.Date.Year == 2019).Sum(y => y.Value),
+                    Sum2020 = x.Where(y => y.Date.Year == 2020).Sum(y => y.Value),
+                    Sum2021 = x.Where(y => y.Date.Year == 2021).Sum(y => y.Value),
                 })
                 .OrderBy(x => x.Sum)
                 .ToList();
