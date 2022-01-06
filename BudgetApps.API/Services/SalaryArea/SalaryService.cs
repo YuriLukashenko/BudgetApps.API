@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using BudgetApps.API.DTOs.SalaryArea;
 using BudgetApps.API.Entities.SalaryArea;
 using BudgetApps.API.Helpers.Builders;
 using BudgetApps.API.Interfaces;
@@ -48,5 +50,19 @@ namespace BudgetApps.API.Services.SalaryArea
         }
 
         #endregion
+
+        public IEnumerable<SalaryAverageRate> GetSalaryAverageRates()
+        {
+            var enrollments = GetSalaryEnrollments();
+            var formations = GetSalaryFormations();
+
+            return formations
+                .GroupBy(x => x.SeId)
+                .Select(x => new SalaryAverageRate()
+                {
+                    AvgRate = x.Average(y => y.Rate),
+                    Date = enrollments.FirstOrDefault(y => y.SeId == x.First().SeId)?.Date
+                });
+        }
     }
 }
