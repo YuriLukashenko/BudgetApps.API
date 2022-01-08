@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace BudgetApps.API.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class UsersController : ControllerBase
     {
         private readonly IUserService _userService;

@@ -10,7 +10,7 @@ namespace BudgetApps.API.Controllers.BetArea
 {
     [CustomAuthorize]
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class BetController : Controller
     {
         private readonly BetService _betService;

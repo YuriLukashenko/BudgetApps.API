@@ -10,7 +10,7 @@ namespace BudgetApps.API.Controllers
 {
     [CustomAuthorize]
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class RateController : Controller
     {
         private readonly RateService _currentRateService;

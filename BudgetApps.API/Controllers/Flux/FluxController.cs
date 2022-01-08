@@ -10,7 +10,7 @@ namespace BudgetApps.API.Controllers.Flux
 {
     [CustomAuthorize]
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class FluxController : Controller
     {
         private readonly FluxService _fluxService;

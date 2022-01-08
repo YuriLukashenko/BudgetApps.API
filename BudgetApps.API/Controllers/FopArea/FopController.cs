@@ -10,7 +10,7 @@ namespace BudgetApps.API.Controllers.FopArea
 {
     [CustomAuthorize]
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class FopController : Controller
     {
         public readonly FopService _fopService;

@@ -10,7 +10,7 @@ namespace BudgetApps.API.Controllers.CaseArea
 {
     [CustomAuthorize]
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class CaseController : Controller
     {
         private readonly CaseService _caseService;

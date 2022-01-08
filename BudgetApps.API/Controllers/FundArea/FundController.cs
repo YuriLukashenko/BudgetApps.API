@@ -10,7 +10,7 @@ namespace BudgetApps.API.Controllers.FundArea
 {
     [CustomAuthorize]
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class FundController : Controller
     {
         private readonly FundService _fundService;

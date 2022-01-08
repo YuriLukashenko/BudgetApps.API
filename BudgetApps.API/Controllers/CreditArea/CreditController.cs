@@ -10,7 +10,7 @@ namespace BudgetApps.API.Controllers.CreditArea
 {
     [CustomAuthorize]
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class CreditController : Controller
     {
         private readonly CreditService _creditService;

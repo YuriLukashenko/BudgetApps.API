@@ -10,7 +10,7 @@ namespace BudgetApps.API.Controllers.Flux
 {
     [CustomAuthorize]
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class RefluxController : Controller
     {
         private readonly RefluxService _refluxService;

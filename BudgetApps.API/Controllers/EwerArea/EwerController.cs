@@ -10,7 +10,7 @@ namespace BudgetApps.API.Controllers.EwerArea
 {
     [CustomAuthorize]
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class EwerController : Controller
     {
         private readonly EwerService _ewerService;

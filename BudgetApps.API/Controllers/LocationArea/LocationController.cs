@@ -10,7 +10,7 @@ namespace BudgetApps.API.Controllers.LocationArea
 {
     [CustomAuthorize]
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class LocationController : Controller
     {
         private readonly LocationService _locationService;

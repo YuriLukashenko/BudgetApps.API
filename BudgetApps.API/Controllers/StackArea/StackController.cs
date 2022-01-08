@@ -10,7 +10,7 @@ namespace BudgetApps.API.Controllers.StackArea
 {
     [CustomAuthorize]
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class StackController : Controller
     {
         private readonly StackService _stackService;
