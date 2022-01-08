@@ -86,13 +86,13 @@ namespace BudgetApps.API
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "BudgetApps.API v1"));
             }
 
-            app.UseHttpsRedirection();
-
             // global cors policy
             app.UseCors(x => x
                 .AllowAnyOrigin()
                 .AllowAnyMethod()
                 .AllowAnyHeader());
+
+            app.UseHttpsRedirection();
 
             app.UseRouting();
 
