@@ -64,5 +64,20 @@ namespace BudgetApps.API.Services.SalaryArea
                     Date = enrollments.FirstOrDefault(y => y.SeId == x.First().SeId)?.Date
                 });
         }
+
+        public IEnumerable<SalaryBonusesByType> GetSalaryBonusesByTypes()
+        {
+            var bonuses = GetSalaryBonuses();
+            var types = GetSalaryBonusTypes();
+
+            return bonuses
+                .GroupBy(x => x.SbtId)
+                .Select(x => new SalaryBonusesByType()
+                {
+                    Sum = x.Sum(y => y.UsdValue),
+                    Name = types.FirstOrDefault(y => y.SbtId == x.First().SbtId)?.Name
+                });
+        }
+
     }
 }
