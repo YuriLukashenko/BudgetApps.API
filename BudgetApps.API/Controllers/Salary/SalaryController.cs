@@ -82,5 +82,12 @@ namespace BudgetApps.API.Controllers.Salary
             var response = _salaryService.GetSalaryBonusesByTypes();
             return Ok(response);
         }
+
+        [HttpGet("bonuses/by/months")]
+        public IActionResult GetSalaryBonusesByMonths()
+        {
+            var response = _salaryService.GetSalaryBonusesByMonths();
+            return Ok(response);
+        }
     }
 }

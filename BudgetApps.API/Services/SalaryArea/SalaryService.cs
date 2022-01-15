@@ -79,5 +79,19 @@ namespace BudgetApps.API.Services.SalaryArea
                 });
         }
 
+        public IEnumerable<SalaryBonusesByMonth> GetSalaryBonusesByMonths()
+        {
+            var bonuses = GetSalaryBonuses();
+            var enrollments = GetSalaryEnrollments();
+
+            return bonuses
+                .GroupBy(x => x.SeId)
+                .Select(x => new SalaryBonusesByMonth()
+                {
+                    Sum = x.Sum(y => y.UsdValue),
+                    SeId = x.First().SeId,
+                    Date = enrollments.FirstOrDefault(y => y.SeId == x.First().SeId)?.Date
+                });
+        }
     }
 }
