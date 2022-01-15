@@ -93,5 +93,19 @@ namespace BudgetApps.API.Services.SalaryArea
                     Date = enrollments.FirstOrDefault(y => y.SeId == x.First().SeId)?.Date
                 });
         }
+
+        public IEnumerable<SalaryWorkHours> GetSalaryWorkHours()
+        {
+            var formations = GetSalaryFormations();
+            var enrollments = GetSalaryEnrollments();
+
+            return formations
+                .GroupBy(x => x.SeId)
+                .Select(x => new SalaryWorkHours()
+                {
+                    Sum = x.Sum(y => y.HoursCount),
+                    Date = enrollments.FirstOrDefault(y => y.SeId == x.First().SeId)?.Date
+                });
+        }
     }
 }

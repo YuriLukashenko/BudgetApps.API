@@ -89,5 +89,12 @@ namespace BudgetApps.API.Controllers.Salary
             var response = _salaryService.GetSalaryBonusesByMonths();
             return Ok(response);
         }
+
+        [HttpGet("formation/hours")]
+        public IActionResult GetSalaryWorkHours()
+        {
+            var response = _salaryService.GetSalaryWorkHours();
+            return Ok(response);
+        }
     }
 }
