@@ -107,5 +107,34 @@ namespace BudgetApps.API.Services.SalaryArea
                     Date = enrollments.FirstOrDefault(y => y.SeId == x.First().SeId)?.Date
                 });
         }
+
+        public IEnumerable<SalaryTotalByMonths> GetTotalSalaryByMonths()
+        {
+            var enrollments = GetSalaryEnrollments();
+            var formations = GetSalaryFormations();
+            var bonuses = GetSalaryBonuses();
+
+            return formations.GroupBy(x => x.SeId)
+                             .Select(x => new 
+                                {
+                                    Sum = x.Sum(y => y.Rate * y.HoursCount), 
+                                    x.First().SeId,
+                                })
+                  .GroupJoin(bonuses.GroupBy(x => x.SeId)
+                                    .Select(x => new 
+                                    {
+                                        Sum = x.Sum(y => y.UsdValue), 
+                                        x.First().SeId,
+                                    }), 
+                             f => f.SeId, 
+                             b => b.SeId, 
+                             (form, bon) => new { form, bon })
+                  .SelectMany(x => x.bon.DefaultIfEmpty(), (grouped, bonus) => new SalaryTotalByMonths() 
+                             {
+                                 SeId = grouped.form.SeId, 
+                                 Sum = grouped.form.Sum + (bonus?.Sum ?? 0),
+                                 Date = enrollments.FirstOrDefault(y => y.SeId == grouped.form.SeId)?.Date
+                             });
+        }
     }
 }

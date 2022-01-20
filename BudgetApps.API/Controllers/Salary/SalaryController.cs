@@ -96,5 +96,12 @@ namespace BudgetApps.API.Controllers.Salary
             var response = _salaryService.GetSalaryWorkHours();
             return Ok(response);
         }
+
+        [HttpGet("enrollment/total")]
+        public IActionResult GetTotalSalaryByMonths()
+        {
+            var response = _salaryService.GetTotalSalaryByMonths();
+            return Ok(response);
+        }
     }
 }
