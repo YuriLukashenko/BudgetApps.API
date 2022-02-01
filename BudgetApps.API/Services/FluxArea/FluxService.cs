@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using BudgetApps.API.DTOs.Flux;
 using BudgetApps.API.Entities.FluxArea;
@@ -51,21 +52,32 @@ namespace BudgetApps.API.Services.FluxArea
 
         public IEnumerable<MonthProfit> GetFluxesMonthProfits()
         {
+            var fluxGrouped = GetCurrentFluxes();
             var fluxHistory = GetFluxHistories();
 
-            return fluxHistory
+            var monthProfits = fluxHistory
                 .GroupBy(x => new { x.Date.Year, x.Date.Month })
                 .OrderBy(x => x.First().Date)
                 .Select(x => new MonthProfit()
                 {
                     Date = x.First().Date,
                     MonthSum = x.Sum(y => y.Value)
-                });
+                })
+                .ToList();
+
+            monthProfits.AddRange(fluxGrouped);
+
+            return monthProfits;
         }
 
 
         public IEnumerable<MonthProfit> GetFluxesMonthProfitsByYear(int id)
         {
+            var currentYear = DateTime.Today.Year;
+
+            if (id == currentYear)
+                return GetCurrentFluxes();
+
             var fluxByYear = GetFluxesByYear(id);
 
             return fluxByYear
@@ -76,6 +88,21 @@ namespace BudgetApps.API.Services.FluxArea
                     Date = x.First().Date,
                     MonthSum = x.Sum(y => y.Value)
                 });
+        }
+
+        public IEnumerable<MonthProfit> GetCurrentFluxes()
+        {
+            var fluxes = GetFluxes();
+
+            return fluxes
+               .GroupBy(f => new { f.Date.Year, f.Date.Month })
+               .OrderBy(f => f.First().Date)
+               .Select(f => new MonthProfit()
+               {
+                   Date = f.First().Date,
+                   //Ft is 9 ==> flux from last year. Kinda hack
+                   MonthSum = f.Where(x => x.FtId != 9).Sum(y => y.Value)
+               });
         }
     }
 }
