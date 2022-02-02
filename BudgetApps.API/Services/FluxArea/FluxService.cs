@@ -104,5 +104,19 @@ namespace BudgetApps.API.Services.FluxArea
                    MonthSum = f.Where(x => x.FtId != 9).Sum(y => y.Value)
                });
         }
+
+        public IEnumerable<YearProfit> GetFluxesYearProfits()
+        {
+            var fluxHistory = GetFluxHistories();
+
+            return fluxHistory
+                .GroupBy(x => x.Date.Year)
+                .OrderBy(x => x.First().Date)
+                .Select(x => new YearProfit()
+                {
+                    Date = x.First().Date,
+                    YearSum = x.Sum(y => y.Value)
+                });
+        }
     }
 }

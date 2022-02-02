@@ -69,5 +69,12 @@ namespace BudgetApps.API.Controllers.Flux
             var response = _fluxService.GetFluxesMonthProfitsByYear(id);
             return Ok(response);
         }
+
+        [HttpGet("year/profit")]
+        public IActionResult GetYearProfit()
+        {
+            var responce = _fluxService.GetFluxesYearProfits();
+            return Ok(responce);
+        }
     }
 }

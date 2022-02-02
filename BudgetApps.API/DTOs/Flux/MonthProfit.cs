@@ -10,4 +10,10 @@ namespace BudgetApps.API.DTOs.Flux
         public DateTime Date { get; set; }
         public double MonthSum { get; set; }
     }
+
+    public class YearProfit
+    {
+        public DateTime Date { get; set; }
+        public double YearSum { get; set; }
+    }
 }
