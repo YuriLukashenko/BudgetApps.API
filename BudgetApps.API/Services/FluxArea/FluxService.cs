@@ -13,9 +13,11 @@ namespace BudgetApps.API.Services.FluxArea
     public class FluxService : EntityBaseService
     {
         private readonly IConnectionService _connectionService;
-        public FluxService(IConnectionService connectionService, QueryBuilder queryBuilder) : base(connectionService, queryBuilder)
+        private readonly DeltaService _deltaService;
+        public FluxService(IConnectionService connectionService, QueryBuilder queryBuilder, DeltaService deltaService) : base(connectionService, queryBuilder)
         {
             _connectionService = connectionService;
+            _deltaService = deltaService;
         }
 
         #region Entities
@@ -117,6 +119,28 @@ namespace BudgetApps.API.Services.FluxArea
                     Date = x.First().Date,
                     YearSum = x.Sum(y => y.Value)
                 });
+        }
+
+        public IEnumerable<DeltaResponce> GetYearDeltas()
+        {
+            var yearProfits = GetFluxesYearProfits();
+            var yearDeltas = new List<DeltaResponce>();
+
+            YearProfit prevYear = null;
+            var nextYear = new YearProfit();
+
+            foreach(var yearProfit in yearProfits)
+            {
+                nextYear = yearProfit;
+                yearDeltas.Add(new DeltaResponce()
+                {
+                    DisplayPeriod = _deltaService.DeltaPeriodFormatting(DeltaService.BinDefenition.Year, yearProfit.Date),
+                    Value = prevYear != null ? _deltaService.CalculateDelta(nextYear.YearSum, prevYear.YearSum) : 0.0
+                });
+                prevYear = yearProfit;
+            }
+
+            return yearDeltas;
         }
     }
 }

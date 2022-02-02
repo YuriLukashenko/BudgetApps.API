@@ -73,6 +73,8 @@ namespace BudgetApps.API
 
             services.AddScoped<QueryBuilder>();
 
+            services.AddSingleton<DeltaService>();
+
             Dapper.DefaultTypeMap.MatchNamesWithUnderscores = true;
         }
 
