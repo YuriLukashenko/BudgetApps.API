@@ -17,7 +17,7 @@ namespace BudgetApps.API.DTOs.Flux
         public double YearSum { get; set; }
     }
 
-    public class DeltaResponce
+    public class DeltaResponse
     {
         public string DisplayPeriod { get; set; }
 

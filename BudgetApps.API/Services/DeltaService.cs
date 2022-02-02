@@ -16,9 +16,9 @@ namespace BudgetApps.API.Services
             switch (bin)
             {
                 case BinDefenition.Year:
-                    return $"{date.Year} vs {date.AddYears(-1).Year}";
+                    return $"{date:yyyy} vs {date.AddYears(-1):yyyy}";
                 case BinDefenition.Month:
-                    return string.Empty;
+                    return $"{date:MMM yyyy} vs {date.AddMonths(-1):MMM yyyy}";
                 default:
                     return string.Empty;
             }

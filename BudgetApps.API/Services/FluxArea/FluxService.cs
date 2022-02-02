@@ -121,10 +121,10 @@ namespace BudgetApps.API.Services.FluxArea
                 });
         }
 
-        public IEnumerable<DeltaResponce> GetYearDeltas()
+        public IEnumerable<DeltaResponse> GetYearDeltas()
         {
             var yearProfits = GetFluxesYearProfits();
-            var yearDeltas = new List<DeltaResponce>();
+            var yearDeltas = new List<DeltaResponse>();
 
             YearProfit prevYear = null;
             var nextYear = new YearProfit();
@@ -132,7 +132,7 @@ namespace BudgetApps.API.Services.FluxArea
             foreach(var yearProfit in yearProfits)
             {
                 nextYear = yearProfit;
-                yearDeltas.Add(new DeltaResponce()
+                yearDeltas.Add(new DeltaResponse()
                 {
                     DisplayPeriod = _deltaService.DeltaPeriodFormatting(DeltaService.BinDefenition.Year, yearProfit.Date),
                     Value = prevYear != null ? _deltaService.CalculateDelta(nextYear.YearSum, prevYear.YearSum) : 0.0
@@ -141,6 +141,28 @@ namespace BudgetApps.API.Services.FluxArea
             }
 
             return yearDeltas;
+        }
+
+        public IEnumerable<DeltaResponse> GetMonthDeltas()
+        {
+            var monthProfits = GetFluxesMonthProfits();
+            var monthDeltas = new List<DeltaResponse>();
+
+            MonthProfit prevMonth = null;
+            var nextMonth = new MonthProfit();
+
+            foreach(var monthProfit in monthProfits)
+            {
+                nextMonth = monthProfit;
+                monthDeltas.Add(new DeltaResponse()
+                {
+                    DisplayPeriod = _deltaService.DeltaPeriodFormatting(DeltaService.BinDefenition.Month, monthProfit.Date),
+                    Value = prevMonth != null ? _deltaService.CalculateDelta(nextMonth.MonthSum, prevMonth.MonthSum) : 0.0
+                });
+                prevMonth = monthProfit;
+            }
+
+            return monthDeltas;
         }
     }
 }

@@ -83,5 +83,12 @@ namespace BudgetApps.API.Controllers.Flux
             var responce = _fluxService.GetYearDeltas();
             return Ok(responce);
         }
+
+        [HttpGet("delta/months")]
+        public IActionResult GetDeltaMonth()
+        {
+            var responce = _fluxService.GetMonthDeltas();
+            return Ok(responce);
+        }
     }
 }
