@@ -90,5 +90,21 @@ namespace BudgetApps.API.Controllers.Flux
             var responce = _fluxService.GetMonthDeltas();
             return Ok(responce);
         }
+
+        [HttpGet("delta/quarter")]
+        public IActionResult GetDeltaQuarter()
+        {
+            var responce = _fluxService.GetQuarterDeltas();
+            return Ok(responce);
+        }
+
+        [HttpGet("quarter/profit")]
+        public IActionResult GetFluxesQuarterProfits()
+        {
+            var responce = _fluxService.GetFluxesQuarterProfits();
+            return Ok(responce);
+        }
+
+
     }
 }

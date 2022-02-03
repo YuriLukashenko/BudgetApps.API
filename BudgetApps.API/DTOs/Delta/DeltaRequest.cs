@@ -31,6 +31,15 @@ namespace BudgetApps.API.DTOs.Delta
             });
         }
 
+        public static IEnumerable<DeltaRequest> CreateFrom(IEnumerable<QuarterProfit> quarterProfits)
+        {
+            return quarterProfits.Select(x => new DeltaRequest()
+            {
+                Date = x.Date,
+                Value = x.QuarterSum
+            });
+        }
+
         public static IEnumerable<DeltaRequest> CreateFrom(IEnumerable<SalaryTotalByMonths> monthSalaries)
         {
             return monthSalaries.Select(x => new DeltaRequest()

@@ -5,5 +5,5 @@ using System.Threading.Tasks;
 
 namespace BudgetApps.API.DTOs.Delta
 {
-    public enum BinDefenition { Year, Month }
+    public enum BinDefenition { Year, Quarter, Month }
 }

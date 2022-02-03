@@ -13,11 +13,18 @@ namespace BudgetApps.API.Services
             {
                 case BinDefenition.Year:
                     return $"{date:yyyy} vs {date.AddYears(-1):yyyy}";
+                case BinDefenition.Quarter:
+                    return $"{GetQuarterName(date)} vs {GetQuarterName(date.AddMonths(-3))} ({date:yyyy})";
                 case BinDefenition.Month:
                     return $"{date:MMM yyyy} vs {date.AddMonths(-1):MMM yyyy}";
                 default:
                     return string.Empty;
             }
+        }
+
+        public string GetQuarterName(DateTime date)
+        {
+            return "Q" + (date.Month + 2) / 3;
         }
 
         public double CalculateDelta(double next, double prev)

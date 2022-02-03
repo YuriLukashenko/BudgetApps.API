@@ -124,11 +124,40 @@ namespace BudgetApps.API.Services.FluxArea
                 });
         }
 
+        public IEnumerable<QuarterProfit> GetFluxesQuarterProfits()
+        {
+            var monthProfits = GetFluxesMonthProfits().ToList();
+            double tempSum = 0.0;
+            var quarterProfits = new List<QuarterProfit>();
+
+            for (int i = 0; i < monthProfits.Count(); i++)
+            {
+                tempSum += monthProfits[i].MonthSum;
+                if ((i + 1) % 3 == 0)
+                {
+                    quarterProfits.Add(new QuarterProfit()
+                    {
+                        Date = monthProfits[i].Date,
+                        QuarterSum = tempSum
+                    });
+                    tempSum = 0.0;
+                }
+            }
+            return quarterProfits;
+        }
+
         public IEnumerable<DeltaResponse> GetYearDeltas()
         {
             var yearProfits = GetFluxesYearProfits();
             var source = DeltaRequest.CreateFrom(yearProfits);
             return _deltaService.EvaluateDelta(source, BinDefenition.Year);
+        }
+
+        public IEnumerable<DeltaResponse> GetQuarterDeltas()
+        {
+            var quarterProfits = GetFluxesQuarterProfits();
+            var source = DeltaRequest.CreateFrom(quarterProfits);
+            return _deltaService.EvaluateDelta(source, BinDefenition.Quarter);
         }
 
         public IEnumerable<DeltaResponse> GetMonthDeltas()
