@@ -1,5 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using BudgetApps.API.DTOs;
+using BudgetApps.API.DTOs.Delta;
+using BudgetApps.API.DTOs.Flux;
 using BudgetApps.API.DTOs.SalaryArea;
 using BudgetApps.API.Entities.SalaryArea;
 using BudgetApps.API.Helpers.Builders;
@@ -9,8 +12,10 @@ namespace BudgetApps.API.Services.SalaryArea
 {
     public class SalaryService : EntityBaseService
     {
-        public SalaryService(IConnectionService connectionService, QueryBuilder queryBuilder) : base(connectionService, queryBuilder)
+        private readonly DeltaService _deltaService;
+        public SalaryService(IConnectionService connectionService, QueryBuilder queryBuilder, DeltaService deltaService) : base(connectionService, queryBuilder)
         {
+            _deltaService = deltaService;
         }
 
         #region Entities
@@ -135,6 +140,13 @@ namespace BudgetApps.API.Services.SalaryArea
                                  Sum = grouped.form.Sum + (bonus?.Sum ?? 0),
                                  Date = enrollments.FirstOrDefault(y => y.SeId == grouped.form.SeId)?.Date
                              });
+        }
+
+        public IEnumerable<DeltaResponse> GetDeltaSalaryByMonths()
+        {
+            var monthSalaries = GetTotalSalaryByMonths();
+            var source = DeltaRequest.CreateFrom(monthSalaries);
+            return _deltaService.EvaluateDelta(source, BinDefenition.Month);
         }
     }
 }

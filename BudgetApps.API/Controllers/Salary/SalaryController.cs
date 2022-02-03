@@ -103,5 +103,12 @@ namespace BudgetApps.API.Controllers.Salary
             var response = _salaryService.GetTotalSalaryByMonths();
             return Ok(response);
         }
+
+        [HttpGet("delta/months")]
+        public IActionResult GetDeltaSalaryByMonths()
+        {
+            var response = _salaryService.GetDeltaSalaryByMonths();
+            return Ok(response);
+        }
     }
 }
