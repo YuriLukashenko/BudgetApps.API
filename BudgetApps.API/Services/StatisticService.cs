@@ -8,22 +8,21 @@ namespace BudgetApps.API.Services
 {
     public class StatisticService
     {
-        public double GetMedian(IEnumerable<int> numbers)
+        public double GetPercentile(IEnumerable<double> numbers, double percentile)
         {
-            double[] array = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12};
-            return Percentile(array, 0.5);
+            return Percentile(numbers.ToList(), percentile);
         }
 
-        public double GetMedian()
+        public double GetMockedMedian(double percentile)
         {
-            var numbers = new List<int>() { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
-            return GetMedian(numbers);
+            var numbers = new List<double>() { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
+            return GetPercentile(numbers, percentile);
         }
 
-        public double Percentile(double[] sequence, double excelPercentile)
+        public double Percentile(List<double> sequence, double excelPercentile)
         {
-            Array.Sort(sequence);
-            int N = sequence.Length;
+            sequence.Sort();
+            int N = sequence.Count();
             //double n = (N - 1) * excelPercentile + 1;
             double n = (N + 1) * excelPercentile;
             if (n == 1d) return sequence[0];

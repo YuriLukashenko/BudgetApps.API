@@ -19,11 +19,11 @@ namespace BudgetApps.API.Controllers.Statistic
             _statisticService = statisticService;
         }
 
-        [HttpGet("median")]
-        public IActionResult Index()
+        [HttpPost("median")]
+        public IActionResult Index(double percentile)
         {
-            var responce = _statisticService.GetMedian();
-            return Ok(responce);
+            var response = _statisticService.GetMockedMedian(percentile);
+            return Ok(response);
         }
     }
 }

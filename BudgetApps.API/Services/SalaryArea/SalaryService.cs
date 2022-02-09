@@ -13,9 +13,11 @@ namespace BudgetApps.API.Services.SalaryArea
     public class SalaryService : EntityBaseService
     {
         private readonly DeltaService _deltaService;
-        public SalaryService(IConnectionService connectionService, QueryBuilder queryBuilder, DeltaService deltaService) : base(connectionService, queryBuilder)
+        private readonly StatisticService _statisticService;
+        public SalaryService(IConnectionService connectionService, QueryBuilder queryBuilder, DeltaService deltaService, StatisticService statisticService) : base(connectionService, queryBuilder)
         {
             _deltaService = deltaService;
+            _statisticService = statisticService;
         }
 
         #region Entities
@@ -147,6 +149,20 @@ namespace BudgetApps.API.Services.SalaryArea
             var monthSalaries = GetTotalSalaryByMonths();
             var source = DeltaRequest.CreateFrom(monthSalaries);
             return _deltaService.EvaluateDelta(source, BinDefenition.Month);
+        }
+
+        public double GetPercentileRate(double percentile)
+        {
+            var formations = GetSalaryFormations();
+            var rates = formations.Select(x => x.Rate);
+            return _statisticService.GetPercentile(rates, percentile);
+        }
+
+        public double GetPercentileOfAverageRateByMonths(double percentile)
+        {
+            var avgRates = GetSalaryAverageRates();
+            var rates = avgRates.Select(x => x.AvgRate);
+            return _statisticService.GetPercentile(rates, percentile);
         }
     }
 }

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using BudgetApps.API.Helpers;
 using BudgetApps.API.Services.SalaryArea;
+using Newtonsoft.Json;
 
 namespace BudgetApps.API.Controllers.Salary
 {
@@ -109,6 +110,33 @@ namespace BudgetApps.API.Controllers.Salary
         {
             var response = _salaryService.GetDeltaSalaryByMonths();
             return Ok(response);
+        }
+
+        [HttpPost("percentile/rates/all")]
+        public IActionResult GetPercentileRate(double percentile = 0.5)
+        {
+            var response = _salaryService.GetPercentileRate(percentile);
+            return Ok(response);
+        }
+
+        [HttpPost("percentile/rates/by/avg")]
+        public IActionResult GetPercentileOfAverageRateByMonths(double percentile = 0.5)
+        {
+            var response = _salaryService.GetPercentileOfAverageRateByMonths(percentile);
+            return Ok(response);
+        }
+
+        [HttpGet("percentile/rates/by/avg/decile")]
+        public IActionResult GetPercentileOfAverageRateByMonthsDecile()
+        {
+            List<double> list = new List<double>();
+            for (int i = 1; i < 10; i++)
+            {
+                var percentileStep = (double) i / 10;
+                list.Add(_salaryService.GetPercentileOfAverageRateByMonths(percentileStep));
+            }
+
+            return Ok(list);
         }
     }
 }
