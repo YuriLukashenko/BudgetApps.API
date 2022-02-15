@@ -138,5 +138,12 @@ namespace BudgetApps.API.Controllers.Salary
 
             return Ok(list);
         }
+
+        [HttpGet("rate/avg")]
+        public IActionResult GetAverageRate()
+        {
+            var response = _salaryService.GetAverageRate();
+            return Ok(response);
+        }
     }
 }

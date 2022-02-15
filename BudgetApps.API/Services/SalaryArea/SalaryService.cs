@@ -164,5 +164,12 @@ namespace BudgetApps.API.Services.SalaryArea
             var rates = avgRates.Select(x => x.AvgRate);
             return _statisticService.GetPercentile(rates, percentile);
         }
+
+        public double GetAverageRate()
+        {
+            //should be one value per month
+            var avgRates = GetSalaryAverageRates();
+            return avgRates.Select(x => x.AvgRate).Average();
+        }
     }
 }

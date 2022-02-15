@@ -40,5 +40,12 @@ namespace BudgetApps.API.Controllers
             })
             .ToArray();
         }
+
+        [HttpPost("test")]
+        public IActionResult Test(object o)
+        {
+            Console.WriteLine(o);
+            return Ok(o);
+        }
     }
 }
