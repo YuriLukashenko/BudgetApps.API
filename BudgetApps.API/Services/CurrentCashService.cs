@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BudgetApps.API.Services.ArmyArea;
 using BudgetApps.API.Services.FluxArea;
 using BudgetApps.API.Services.RefluxArea;
 
@@ -11,18 +12,22 @@ namespace BudgetApps.API.Services
     {
         private readonly FluxService _fluxService;
         private readonly RefluxService _refluxService;
-        public CurrentCashService(FluxService fluxService, RefluxService refluxService)
+        private readonly ArmyService _armyService;
+
+        public CurrentCashService(FluxService fluxService, RefluxService refluxService, ArmyService armyService)
         {
             _fluxService = fluxService;
             _refluxService = refluxService;
+            _armyService = armyService;
         }
 
         public double GetCurrentCash()
         {
             var fluxSum = FluxSum();
             var refluxSum = RefluxSum();
+            var armySum = ArmySum();
 
-            return refluxSum;
+            return armySum;
         }
 
         public double FluxSum()
@@ -35,6 +40,14 @@ namespace BudgetApps.API.Services
         {
             var refluxes = _refluxService.GetRefluxes();
             return refluxes.Sum(x => x.Value);
+        }
+
+        public double ArmySum()
+        {
+            var army = _armyService.GetArmies();
+
+            return army.Where(x => x.Date.Year == DateTime.Today.Year)
+                .Sum(x => x.Value);
         }
     }
 }

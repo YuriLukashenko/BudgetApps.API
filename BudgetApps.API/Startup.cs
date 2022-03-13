@@ -18,6 +18,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BudgetApps.API.Helpers.Builders;
+using BudgetApps.API.Services.ArmyArea;
 using BudgetApps.API.Services.BetArea;
 using BudgetApps.API.Services.CaseArea;
 using BudgetApps.API.Services.CreditArea;
@@ -70,6 +71,7 @@ namespace BudgetApps.API
             services.AddScoped<FopService>();
             services.AddScoped<RateService>();
             services.AddScoped<LocationService>();
+            services.AddScoped<ArmyService>();
 
             services.AddScoped<CurrentCashService>();
 
