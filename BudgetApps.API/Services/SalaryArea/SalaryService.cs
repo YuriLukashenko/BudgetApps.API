@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using BudgetApps.API.DTOs;
 using BudgetApps.API.DTOs.Delta;
@@ -170,6 +171,62 @@ namespace BudgetApps.API.Services.SalaryArea
             //should be one value per month
             var avgRates = GetSalaryAverageRates();
             return avgRates.Select(x => x.AvgRate).Average();
+        }
+
+        public IEnumerable<double> GetPercentileOfTotalSalary(double percentile, DateTime? startPoint = null)
+        {
+            //Get total salary by months. Than calculate percentile of year range. Two options: from start working or by physical year
+            var totalSalaryArray = GetTotalSalaryByMonths();
+
+            var grouped = new List<double>();
+            var group = new List<SalaryTotalByMonths>();
+
+            int i = 0;
+            do
+            {
+                group = totalSalaryArray.Skip(i * 12).Take(12).ToList();
+                if (!group.Any()) break;
+                var calculated = _statisticService.GetPercentile(group.Select(x => x.Sum), percentile);
+                grouped.Add(calculated);
+                i++;
+            } while (group.Any());
+
+            return grouped;
+        }
+
+        public IEnumerable<double> GetAverageOfTotalSalary()
+        {
+            var totalSalaryArray = GetTotalSalaryByMonths();
+
+            var grouped = new List<double>();
+            var group = new List<SalaryTotalByMonths>();
+
+            int i = 0;
+            do
+            {
+                group = totalSalaryArray.Skip(i * 12).Take(12).ToList();
+                if (!group.Any()) break;
+                var calculated = group.Average(x => x.Sum);
+                grouped.Add(calculated);
+                i++;
+            } while (group.Any());
+
+            return grouped;
+        }
+
+        public IEnumerable<double> GetInterquartile()
+        {
+            var q1 = GetPercentileOfTotalSalary(0.25).ToList();
+            var q2 = GetPercentileOfTotalSalary(0.50).ToList();
+            var q3 = GetPercentileOfTotalSalary(0.75).ToList();
+
+            var result = new List<double>();
+            for (int i = 0; i < q1.Count(); i++)
+            {
+                result.Add((q3[i] - q1[i]) / q2[i]);
+            }
+
+            return result;
         }
     }
 }

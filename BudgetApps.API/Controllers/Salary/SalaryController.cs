@@ -145,5 +145,26 @@ namespace BudgetApps.API.Controllers.Salary
             var response = _salaryService.GetAverageRate();
             return Ok(response);
         }
+
+        [HttpPost("enrollments/percentile")]
+        public IActionResult GetPercentileOfTotalSalary(double percentile = 0.5)
+        {
+            var response = _salaryService.GetPercentileOfTotalSalary(percentile, DateTime.MinValue);
+            return Ok(response);
+        }
+
+        [HttpGet("enrollments/avg")]
+        public IActionResult GetAverageOfTotalSalary()
+        {
+            var response = _salaryService.GetAverageOfTotalSalary();
+            return Ok(response);
+        }
+
+        [HttpGet("enrollments/interquartile")]
+        public IActionResult GetInterquartile()
+        {
+            var response = _salaryService.GetInterquartile();
+            return Ok(response);
+        }
     }
 }

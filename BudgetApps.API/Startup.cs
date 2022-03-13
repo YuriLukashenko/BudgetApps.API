@@ -71,6 +71,8 @@ namespace BudgetApps.API
             services.AddScoped<RateService>();
             services.AddScoped<LocationService>();
 
+            services.AddScoped<CurrentCashService>();
+
             services.AddScoped<QueryBuilder>();
 
             services.AddSingleton<DeltaService>();
