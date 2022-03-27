@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BudgetApps.API.DTOs.EwerArea;
 using BudgetApps.API.Entities.EwerArea;
 using BudgetApps.API.Helpers.Builders;
 using BudgetApps.API.Interfaces;
@@ -41,5 +42,25 @@ namespace BudgetApps.API.Services.EwerArea
         }
 
         #endregion
+
+        public IEnumerable<Ewer> GetEwersByYear(int year)
+        {
+            var ewers = GetEwers();
+
+            return ewers.Where(x => x.Year == year);
+        }
+
+        public IEnumerable<EwerViewDTO> GetEwerViewByYear(int year)
+        {
+            var ewersByYear = GetEwersByYear(year);
+            var currency = GetEwerCurrencyTypes();
+
+            return ewersByYear.Select(x => new EwerViewDTO()
+            {
+                Month = x.Month,
+                InUah = x.Value * x.Rate,
+                Name = currency.FirstOrDefault(y => y.EctId == x.EctId)?.Name
+            });
+        }
     }
 }

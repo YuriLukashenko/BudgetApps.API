@@ -46,7 +46,12 @@ namespace BudgetApps.API.Services.FundArea
             return GetAll<FundSpends>();
         }
 
-
         #endregion
+
+        public IEnumerable<FundDonations> GetFundDonationsByYear(int year)
+        {
+            var donations = GetFundDonations();
+            return donations.Where(x => x.Date.Year == year);
+        }
     }
 }

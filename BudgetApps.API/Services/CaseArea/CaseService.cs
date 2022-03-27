@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using BudgetApps.API.DTOs.CaseArea;
 using BudgetApps.API.Entities.CaseArea;
 using BudgetApps.API.Helpers.Builders;
 using BudgetApps.API.Interfaces;
@@ -34,5 +36,17 @@ namespace BudgetApps.API.Services.CaseArea
         }
 
         #endregion
+
+        public IEnumerable<CaseViewDTO> GetCaseViewsByYear(int year)
+        {
+            var cases = GetCases();
+
+            return cases.Where(x => x.Date.Year == year)
+                .Select(x => new CaseViewDTO()
+                {
+                    Date = x.Date,
+                    InUah = x.Usd * x.Rate
+                });
+        }
     }
 }
