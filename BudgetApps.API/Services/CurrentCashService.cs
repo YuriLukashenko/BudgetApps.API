@@ -6,6 +6,7 @@ using BudgetApps.API.Services.ArmyArea;
 using BudgetApps.API.Services.BetArea;
 using BudgetApps.API.Services.CaseArea;
 using BudgetApps.API.Services.CreditArea;
+using BudgetApps.API.Services.DepositArea;
 using BudgetApps.API.Services.EwerArea;
 using BudgetApps.API.Services.FluxArea;
 using BudgetApps.API.Services.FundArea;
@@ -17,24 +18,29 @@ namespace BudgetApps.API.Services
     {
         private readonly FluxService _fluxService;
         private readonly RefluxService _refluxService;
-        private readonly ArmyService _armyService;
         private readonly EwerService _ewerService;
         private readonly CaseService _caseService;
         private readonly CreditService _creditService;
         private readonly FundService _fundService;
         private readonly BetService _betService;
+        private readonly ArmyService _armyService;
+        private readonly DepositService _depositService;
 
-        public CurrentCashService(FluxService fluxService, RefluxService refluxService, ArmyService armyService,
-            EwerService ewerService, CaseService caseService, CreditService creditService, FundService fundService, BetService betService)
+        public CurrentCashService(FluxService fluxService, RefluxService refluxService,
+            EwerService ewerService, CaseService caseService, 
+            CreditService creditService, FundService fundService, 
+            BetService betService, ArmyService armyService, 
+            DepositService depositService)
         {
             _fluxService = fluxService;
             _refluxService = refluxService;
-            _armyService = armyService;
             _ewerService = ewerService;
             _caseService = caseService;
             _creditService = creditService;
             _fundService = fundService;
             _betService = betService;
+            _armyService = armyService;
+            _depositService = depositService;
         }
 
         public double GetCurrentCash()
@@ -47,9 +53,9 @@ namespace BudgetApps.API.Services
             var donationSum = DonationSum();
             var betSum = BetSum();
             var armySum = ArmySum();
+            var depositSum = DepositSum();
 
-
-            return betSum;
+            return fluxSum - refluxSum - ewerSum - caseSum - creditSum - donationSum + betSum - armySum - depositSum;
         }
 
         public double FluxSum()
@@ -109,6 +115,13 @@ namespace BudgetApps.API.Services
             var commissions = bets.Sum(x => x.Commission);
 
             return outcomeSum - betSum - commissions;
+        }
+
+        public double DepositSum()
+        {
+            var deposits = _depositService.GetDepositsByYear(DateTime.Today.Year);
+
+            return deposits.Sum(x => x.Value);
         }
     }
 }

@@ -22,6 +22,7 @@ using BudgetApps.API.Services.ArmyArea;
 using BudgetApps.API.Services.BetArea;
 using BudgetApps.API.Services.CaseArea;
 using BudgetApps.API.Services.CreditArea;
+using BudgetApps.API.Services.DepositArea;
 using BudgetApps.API.Services.EwerArea;
 using BudgetApps.API.Services.FluxArea;
 using BudgetApps.API.Services.FopArea;
@@ -72,6 +73,7 @@ namespace BudgetApps.API
             services.AddScoped<RateService>();
             services.AddScoped<LocationService>();
             services.AddScoped<ArmyService>();
+            services.AddScoped<DepositService>();
 
             services.AddScoped<CurrentCashService>();
 
