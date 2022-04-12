@@ -21,6 +21,14 @@ namespace BudgetApps.API.Services.CreditArea
             return GetAll<Credit>();
         }
 
+        public double ActiveSum()
+        {
+            var credits = GetCredits();
+
+            return credits.Where(x => x.EndDate == null)
+                .Sum(x => x.Value);
+        }
+
         #endregion
     }
 }

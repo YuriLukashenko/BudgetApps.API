@@ -92,13 +92,7 @@ namespace BudgetApps.API.Services
             return cases.Sum(x => x.InUah);
         }
 
-        public double CreditSum()
-        {
-            var credits = _creditService.GetCredits();
-
-            return credits.Where(x => x.EndDate == null)
-                .Sum(x => x.Value);
-        }
+        public double CreditSum() => _creditService.ActiveSum();
 
         public double DonationSum()
         {

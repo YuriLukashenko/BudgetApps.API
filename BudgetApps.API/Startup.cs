@@ -76,6 +76,7 @@ namespace BudgetApps.API
             services.AddScoped<DepositService>();
 
             services.AddScoped<CurrentCashService>();
+            services.AddScoped<TotalValuesService>();
 
             services.AddScoped<QueryBuilder>();
 
