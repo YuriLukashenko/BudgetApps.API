@@ -22,6 +22,22 @@ namespace BudgetApps.API.Services
             return GetAll<CurrentRate>();
         }
 
+        public CurrentRate GetLast()
+        {
+            var currentRates = GetCurrentRates();
+            return currentRates.LastOrDefault();
+        }
+
+        public double GetRateByName(string name)
+        {
+            var last = GetLast();
+            if (name == "USD") return last.Usd;
+            if (name == "EUR") return last.Eur;
+            if (name == "PLN") return last.Pln;
+
+            return 1;
+        }
+
         #endregion
     }
 }

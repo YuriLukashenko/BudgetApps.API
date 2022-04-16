@@ -43,6 +43,12 @@ namespace BudgetApps.API.Services.EwerArea
 
         #endregion
 
+        public int? GetEwerCurrencyTypeIdByName(string name)
+        {
+            var ewerCurrencyTypes = GetEwerCurrencyTypes();
+            return ewerCurrencyTypes.FirstOrDefault(x => x.Name == name)?.EctId;
+        }
+
         public IEnumerable<Ewer> GetEwersByYear(int year)
         {
             var ewers = GetEwers();
@@ -63,34 +69,34 @@ namespace BudgetApps.API.Services.EwerArea
             });
         }
 
-        public double CommonEwerUah()
+        public double CommonEwerByEct(int ectId)
         {
-            var ewerUah = GetEwerUah();
-            var commonEwerSpendUah = CommonEwerSpendUah();
-            var commonEwerCreditUah = CommonEwerCreditUah();
+            var ewer = GetEwersByEct(ectId);
+            var commonEwerSpend = CommonEwerSpendByEct(ectId);
+            var commonEwerCredit = CommonEwerCreditByEct(ectId);
 
-            return ewerUah - commonEwerCreditUah - commonEwerSpendUah;
+            return ewer - commonEwerSpend - commonEwerCredit;
         }
 
-        public double CommonEwerCreditUah()
+        public double CommonEwerCreditByEct(int ectId)
         {
             var ewerCredits = GetEwerCredits();
 
-            return ewerCredits.Where(x => x.EctId == 4).Sum(x => x.Value);
+            return ewerCredits.Where(x => x.EctId == ectId).Sum(x => x.Value);
         }
 
-        private double CommonEwerSpendUah()
+        private double CommonEwerSpendByEct(int ectId)
         {
             var ewerSpends = GetEwerSpends();
 
-            return ewerSpends.Where(x => x.EctId == 4).Sum(x => x.Value);
+            return ewerSpends.Where(x => x.EctId == ectId).Sum(x => x.Value);
         }
 
-        public double GetEwerUah()
+        public double GetEwersByEct(int ectId)
         {
             var ewers = GetEwers();
 
-            return ewers.Where(x => x.EctId == 4).Sum(x => x.Value);
+            return ewers.Where(x => x.EctId == ectId).Sum(x => x.Value);
         }
     }
 }

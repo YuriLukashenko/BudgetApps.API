@@ -19,10 +19,52 @@ namespace BudgetApps.API.Controllers
             _totalValuesService = totalValuesService;
         }
 
-        [HttpGet("all")]
-        public IActionResult GetCurrentCash()
+        [HttpGet("uah")]
+        public IActionResult GetTotalUah()
         {
             var response = _totalValuesService.GetTotalUah();
+            return Ok(response);
+        }
+
+        [HttpGet("usd")]
+        public IActionResult GetTotalUsd()
+        {
+            var response = _totalValuesService.GetTotalUsdInUah();
+            return Ok(response);
+        }
+
+        [HttpGet("eur")]
+        public IActionResult GetTotalEur()
+        {
+            var response = _totalValuesService.GetTotalEurInUah();
+            return Ok(response);
+        }
+
+        [HttpGet("pln")]
+        public IActionResult GetTotalPln()
+        {
+            var response = _totalValuesService.GetTotalPlnInUah();
+            return Ok(response);
+        }
+
+        [HttpGet("fop")]
+        public IActionResult GetTotalFop()
+        {
+            var response = _totalValuesService.GetTotalFopInUah();
+            return Ok(response);
+        }
+
+        [HttpGet("all")]
+        public IActionResult GetTotalAll()
+        {
+            var response = _totalValuesService.GetTotalValuesTotal();
+            return Ok(response);
+        }
+
+        [HttpGet("percents")]
+        public IActionResult GetTotalPercents()
+        {
+            var response = _totalValuesService.GetPercents();
             return Ok(response);
         }
     }

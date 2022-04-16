@@ -22,5 +22,12 @@ namespace BudgetApps.API.Services.FopArea
         }
 
         #endregion
+
+        public double GetWorkingBalance()
+        {
+            var fop = GetFopBalances();
+
+            return fop.FirstOrDefault(x => x.Type == "Working")?.Value ?? double.NaN;
+        }
     }
 }
