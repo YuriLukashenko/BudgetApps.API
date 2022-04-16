@@ -62,5 +62,35 @@ namespace BudgetApps.API.Services.EwerArea
                 Name = currency.FirstOrDefault(y => y.EctId == x.EctId)?.Name
             });
         }
+
+        public double CommonEwerUah()
+        {
+            var ewerUah = GetEwerUah();
+            var commonEwerSpendUah = CommonEwerSpendUah();
+            var commonEwerCreditUah = CommonEwerCreditUah();
+
+            return ewerUah - commonEwerCreditUah - commonEwerSpendUah;
+        }
+
+        public double CommonEwerCreditUah()
+        {
+            var ewerCredits = GetEwerCredits();
+
+            return ewerCredits.Where(x => x.EctId == 4).Sum(x => x.Value);
+        }
+
+        private double CommonEwerSpendUah()
+        {
+            var ewerSpends = GetEwerSpends();
+
+            return ewerSpends.Where(x => x.EctId == 4).Sum(x => x.Value);
+        }
+
+        public double GetEwerUah()
+        {
+            var ewers = GetEwers();
+
+            return ewers.Where(x => x.EctId == 4).Sum(x => x.Value);
+        }
     }
 }

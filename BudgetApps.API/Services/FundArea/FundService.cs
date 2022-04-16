@@ -53,5 +53,70 @@ namespace BudgetApps.API.Services.FundArea
             var donations = GetFundDonations();
             return donations.Where(x => x.Date.Year == year);
         }
+
+        public double DonationSumByYear(int year)
+        {
+            var donations = GetFundDonationsByYear(year);
+
+            return donations.Sum(x => x.Value);
+        }
+
+        public double TotalDonations()
+        {
+            var donations = GetFundDonations();
+            return donations.Sum(x => x.Value);
+        }
+
+        public double TotalOnSex()
+        {
+            var withGirls = GetFundWithGirls();
+
+            return withGirls
+                .Where(x => x.CashSource == FundWithGirls.CashSourceDefinition.OnSex)
+                .Sum(x => x.Value);
+        }
+
+        private double TotalResearches()
+        {
+            var researches = GetFundResearches();
+
+            return researches
+                .Select(x => x.Rate * x.Hours)
+                .Sum();
+        }
+
+        public double FundTotal()
+        {
+            var totalDonations = TotalDonations();
+            var totalOnSex = TotalOnSex();
+            var totalResearches = TotalResearches();
+
+            return totalDonations - totalOnSex - totalResearches;
+        }
+
+        public double FundBalance()
+        {
+            var totalResearches = TotalResearches();
+            var totalOnSpend = TotalOnSpend();
+            var totalSpends = TotalSpends();
+
+            return totalResearches - totalOnSpend - totalSpends;
+        }
+
+        private double TotalOnSpend()
+        {
+            var withGirls = GetFundWithGirls();
+
+            return withGirls
+                .Where(x => x.CashSource == FundWithGirls.CashSourceDefinition.OnSpend)
+                .Sum(x => x.Value);
+        }
+
+        private double TotalSpends()
+        {
+            var spends = GetFundSpends();
+
+            return spends.Sum(x => x.Value);
+        }
     }
 }

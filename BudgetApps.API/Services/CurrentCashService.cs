@@ -94,12 +94,8 @@ namespace BudgetApps.API.Services
 
         public double CreditSum() => _creditService.ActiveSum();
 
-        public double DonationSum()
-        {
-            var donations = _fundService.GetFundDonationsByYear(DateTime.Today.Year);
+        public double DonationSum() => _fundService.DonationSumByYear(DateTime.Today.Year);
 
-            return donations.Sum(x => x.Value);
-        }
         public double BetSum()
         {
             var bets = _betService.GetBetsByYear(DateTime.Today.Year).ToList();
@@ -111,11 +107,6 @@ namespace BudgetApps.API.Services
             return outcomeSum - betSum - commissions;
         }
 
-        public double DepositSum()
-        {
-            var deposits = _depositService.GetDepositsByYear(DateTime.Today.Year);
-
-            return deposits.Sum(x => x.Value);
-        }
+        public double DepositSum() => _depositService.ActiveSumByYear(DateTime.Today.Year);
     }
 }

@@ -29,5 +29,12 @@ namespace BudgetApps.API.Services.DepositArea
         }
 
         #endregion
+
+        public double ActiveSumByYear(int year)
+        {
+            var deposits = GetDepositsByYear(year);
+
+            return deposits.Sum(x => x.Value);
+        }
     }
 }

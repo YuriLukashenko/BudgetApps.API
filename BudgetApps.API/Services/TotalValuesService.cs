@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BudgetApps.API.Services.CreditArea;
+using BudgetApps.API.Services.DepositArea;
+using BudgetApps.API.Services.EwerArea;
+using BudgetApps.API.Services.FundArea;
 
 namespace BudgetApps.API.Services
 {
@@ -10,24 +13,31 @@ namespace BudgetApps.API.Services
     {
         private readonly CurrentCashService _currentCashService;
         private readonly CreditService _creditService;
-        public TotalValuesService(CurrentCashService currentCashService, CreditService creditService)
+        private readonly DepositService _depositService;
+        private readonly FundService _fundService;
+        private readonly EwerService _ewerService;
+        public TotalValuesService(CurrentCashService currentCashService, CreditService creditService,
+            DepositService depositService, FundService fundService,
+            EwerService ewerService)
         {
             _currentCashService = currentCashService;
             _creditService = creditService;
-            SumUah();
+            _depositService = depositService;
+            _fundService = fundService;
+            _ewerService = ewerService;
         }
 
-        public double SumUah()
+        public double GetTotalUah()
         {
             var currentCash = _currentCashService.GetCurrentCash();
-            //fund total
-            //fund balance
+            var fundTotal = _fundService.FundTotal();
+            var fundBalance = _fundService.FundBalance();
             var credit = _creditService.ActiveSum();
-            //common ewer
-            //common ewer credit
-            //deposit
+            var commonEwerUah = _ewerService.CommonEwerUah();
+            var commonEwerCredit = _ewerService.CommonEwerCreditUah();
+            var deposit = _depositService.ActiveSumByYear(DateTime.Today.Year);
 
-            return currentCash + credit;
+            return currentCash + fundTotal + fundBalance + credit + commonEwerUah + commonEwerCredit + deposit;
         }
     }
 }
