@@ -10,6 +10,7 @@ using BudgetApps.API.Services.DepositArea;
 using BudgetApps.API.Services.EwerArea;
 using BudgetApps.API.Services.FluxArea;
 using BudgetApps.API.Services.FundArea;
+using BudgetApps.API.Services.ObligationArea;
 using BudgetApps.API.Services.RefluxArea;
 
 namespace BudgetApps.API.Services
@@ -25,12 +26,13 @@ namespace BudgetApps.API.Services
         private readonly BetService _betService;
         private readonly ArmyService _armyService;
         private readonly DepositService _depositService;
+        private readonly ObligationService _obligationService;
 
         public CurrentCashService(FluxService fluxService, RefluxService refluxService,
             EwerService ewerService, CaseService caseService, 
             CreditService creditService, FundService fundService, 
             BetService betService, ArmyService armyService, 
-            DepositService depositService)
+            DepositService depositService, ObligationService obligationService)
         {
             _fluxService = fluxService;
             _refluxService = refluxService;
@@ -41,6 +43,7 @@ namespace BudgetApps.API.Services
             _betService = betService;
             _armyService = armyService;
             _depositService = depositService;
+            _obligationService = obligationService;
         }
 
         public double GetCurrentCash()
@@ -54,8 +57,9 @@ namespace BudgetApps.API.Services
             var betSum = BetSum();
             var armySum = ArmySum();
             var depositSum = DepositSum();
+            var obligationSum = ObligationSum();
 
-            return fluxSum - refluxSum - ewerSum - caseSum - creditSum - donationSum + betSum - armySum - depositSum;
+            return fluxSum - refluxSum - ewerSum - caseSum - creditSum - donationSum + betSum - armySum - depositSum - obligationSum;
         }
 
         public double FluxSum()
@@ -108,5 +112,7 @@ namespace BudgetApps.API.Services
         }
 
         public double DepositSum() => _depositService.ActiveSumByYear(DateTime.Today.Year);
+
+        public double ObligationSum() => _obligationService.ActiveSumByYear(DateTime.Today.Year);
     }
 }

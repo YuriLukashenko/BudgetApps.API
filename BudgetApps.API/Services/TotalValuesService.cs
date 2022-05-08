@@ -7,6 +7,7 @@ using BudgetApps.API.Services.DepositArea;
 using BudgetApps.API.Services.EwerArea;
 using BudgetApps.API.Services.FopArea;
 using BudgetApps.API.Services.FundArea;
+using BudgetApps.API.Services.ObligationArea;
 
 namespace BudgetApps.API.Services
 {
@@ -19,10 +20,11 @@ namespace BudgetApps.API.Services
         private readonly EwerService _ewerService;
         private readonly RateService _rateService;
         private readonly FopService _fopService;
+        private readonly ObligationService _obligationService;
         public TotalValuesService(CurrentCashService currentCashService, CreditService creditService,
             DepositService depositService, FundService fundService,
             EwerService ewerService, RateService rateService,
-            FopService fopService)
+            FopService fopService, ObligationService obligationService)
         {
             _currentCashService = currentCashService;
             _creditService = creditService;
@@ -31,6 +33,7 @@ namespace BudgetApps.API.Services
             _ewerService = ewerService;
             _rateService = rateService;
             _fopService = fopService;
+            _obligationService = obligationService;
         }
 
         public double GetTotalUah()
@@ -45,8 +48,9 @@ namespace BudgetApps.API.Services
             var commonEwer = _ewerService.CommonEwerByEct(id.Value);
             var commonEwerCredit = _ewerService.CommonEwerCreditByEct(id.Value);
             var deposit = _depositService.ActiveSumByYear(DateTime.Today.Year);
+            var obligation = _obligationService.ActiveSumByYear(DateTime.Today.Year);
 
-            return currentCash + fundTotal + fundBalance + credit + commonEwer + commonEwerCredit + deposit;
+            return currentCash + fundTotal + fundBalance + credit + commonEwer + commonEwerCredit + deposit + obligation;
         }
 
         public double GetTotalUsd()
