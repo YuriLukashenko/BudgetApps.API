@@ -47,6 +47,38 @@ namespace BudgetApps.API.Services.RefluxArea
                 });
         }
 
+        public IEnumerable<MonthReflux> GetRefluxesMonthByYear(int year)
+        {
+            var refluxHistory = GetRefluxHistories();
+
+            return refluxHistory
+                .Where(x => x.Date.Year == year)
+                .GroupBy(x => x.Date.Month)
+                .OrderBy(x => x.First().Date)
+                .Select(x => new MonthReflux()
+                {
+                    RId = x.First().RhId,
+                    Date = x.First().Date,
+                    MonthSum = x.Sum(y => y.Value)
+                });
+        }
+
+
+        public IEnumerable<MonthReflux> GetRefluxesMonthCurrent()
+        {
+            var refluxes = GetRefluxes();
+
+            return refluxes
+                .GroupBy(x => x.Date.Month)
+                .OrderBy(x => x.First().Date)
+                .Select(x => new MonthReflux()
+                {
+                    RId = x.First().RId,
+                    Date = x.First().Date,
+                    MonthSum = x.Sum(y => y.Value)
+                });
+        }
+
         public IEnumerable<RefluxByCaterogies> GetRefluxByCaterogies()
         {
             var refluxHistory = GetRefluxHistories();
