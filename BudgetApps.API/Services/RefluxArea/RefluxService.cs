@@ -154,5 +154,23 @@ namespace BudgetApps.API.Services.RefluxArea
 
 
         #endregion
+
+        public IEnumerable<RefluxTypes> GetUsedRefluxTypesMonthCurrent()
+        {
+            var refluxTypes = GetRefluxTypes();
+            var refluxes = GetRefluxes();
+            var refluxesGrouped = refluxes.GroupBy(x => x.RtId).Select(g => g.Key);
+
+            return refluxTypes.Where(x => refluxesGrouped.Contains(x.RtId));
+        }
+
+        public IEnumerable<RefluxTypes> GetUsedRefluxTypesByYear(int year)
+        {
+            var refluxTypes = GetRefluxTypes();
+            var refluxesHistories = GetRefluxHistories();
+            var refluxesGrouped = refluxesHistories.GroupBy(x => x.RtId).Select(g => g.Key);
+
+            return refluxTypes.Where(x => refluxesGrouped.Contains(x.RtId));
+        }
     }
 }

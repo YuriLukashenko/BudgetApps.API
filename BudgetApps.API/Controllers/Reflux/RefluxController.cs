@@ -63,6 +63,21 @@ namespace BudgetApps.API.Controllers.Flux
             }
         }
 
+        [HttpGet("types/{year}")]
+        public IActionResult GetUsedRefluxTypesByYear(int year)
+        {
+            if (year == DateTime.Now.Year)
+            {
+                var response = _refluxService.GetUsedRefluxTypesMonthCurrent();
+                return Ok(response);
+            }
+            else
+            {
+                var response = _refluxService.GetUsedRefluxTypesByYear(year);
+                return Ok(response);
+            }
+        }
+
         [HttpGet("categories")]
         public IActionResult GetRefluxByCaterogies()
         {
