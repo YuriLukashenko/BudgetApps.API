@@ -172,5 +172,36 @@ namespace BudgetApps.API.Services.RefluxArea
 
             return refluxTypes.Where(x => refluxesGrouped.Contains(x.RtId));
         }
+
+        public IEnumerable<MonthReflux> GetRefluxesMonthCurrentByType(int type)
+        {
+            var refluxes = GetRefluxes().Where(x => x.RtId == type);
+
+            return refluxes
+                .GroupBy(x => x.Date.Month)
+                .OrderBy(x => x.First().Date)
+                .Select(x => new MonthReflux()
+                {
+                    RId = x.First().RId,
+                    Date = x.First().Date,
+                    MonthSum = x.Sum(y => y.Value)
+                });
+        }
+
+        public IEnumerable<MonthReflux> GetRefluxesMonthByYearByType(int year, int type)
+        {
+            var refluxHistory = GetRefluxHistories().Where(x => x.RtId == type);
+
+            return refluxHistory
+                .Where(x => x.Date.Year == year)
+                .GroupBy(x => x.Date.Month)
+                .OrderBy(x => x.First().Date)
+                .Select(x => new MonthReflux()
+                {
+                    RId = x.First().RhId,
+                    Date = x.First().Date,
+                    MonthSum = x.Sum(y => y.Value)
+                });
+        }
     }
 }
