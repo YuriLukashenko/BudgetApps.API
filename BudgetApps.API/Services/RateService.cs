@@ -31,6 +31,7 @@ namespace BudgetApps.API.Services
         public double GetRateByName(string name)
         {
             var last = GetLast();
+            name = name.ToUpper();
             if (name == "USD") return last.Usd;
             if (name == "EUR") return last.Eur;
             if (name == "PLN") return last.Pln;

@@ -26,5 +26,12 @@ namespace BudgetApps.API.Controllers
             return Ok(response);
         }
 
+        [HttpGet("by/{name}")]
+        public IActionResult GetCurrentRateByName(string name)
+        {
+            var response = _currentRateService.GetRateByName(name);
+            return Ok(response);
+        }
+
     }
 }
