@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BudgetApps.API.Helpers;
+using BudgetApps.API.Models.Locations;
 using BudgetApps.API.Services.FopArea;
 
 namespace BudgetApps.API.Controllers.FopArea
@@ -23,6 +24,14 @@ namespace BudgetApps.API.Controllers.FopArea
         public IActionResult GetFopBalances()
         {
             var response = _fopService.GetFopBalances();
+            return Ok(response);
+        }
+
+        [HttpPost("update")]
+        public IActionResult PostCashLocations(IEnumerable<FopRequestDTO> request)
+        {
+            var response = _fopService.Update(request);
+
             return Ok(response);
         }
     }
