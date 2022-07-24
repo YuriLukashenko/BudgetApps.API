@@ -17,7 +17,7 @@ namespace BudgetApps.API.DTOs
         public static EntityQueryConfig GetConfigByType<T>()
         {
             var className = typeof(T).Name;
-            var idName = AttributeHelper.GetPropName<T>();
+            var idName = AttributeHelper.GetIdName<T>();
 
             return new EntityQueryConfig()
             {

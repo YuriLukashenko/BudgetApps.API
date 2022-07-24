@@ -1,5 +1,5 @@
 ﻿using BudgetApps.API.Entities;
-using BudgetApps.API.Models;
+using BudgetApps.API.Models.Auth;
 using System;
 using System.Collections.Generic;
 using System.Linq;

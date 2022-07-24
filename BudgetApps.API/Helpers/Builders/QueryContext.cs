@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BudgetApps.API.DTOs;
 using BudgetApps.API.Helpers.FieldComponents;
 
 namespace BudgetApps.API.Helpers.Builders
@@ -14,6 +15,7 @@ namespace BudgetApps.API.Helpers.Builders
         public FieldOrder FieldOrder { get; set; }
         public Field Field { get; set; }
         public int Id { get; set; }
+        public Payload Payload { get; set; }
         public string GetCommandName() => GetCommandName(Command);
 
         public string GetOrderName() => GetOrderName(FieldOrder.Order);

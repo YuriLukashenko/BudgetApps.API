@@ -36,12 +36,35 @@ namespace BudgetApps.API.Helpers.Builders
             return this;
         }
 
+        public PostgresStringBuilder Equals()
+        {
+            _builder.Append(" =");
+            return this;
+        }
+
         public PostgresStringBuilder From()
         {
             _builder.Append(" from");
             return this;
         }
 
+        public PostgresStringBuilder Value(string value)
+        {
+            _builder.Append($" {value}");
+            return this;
+        }
+
+        public PostgresStringBuilder Set()
+        {
+            _builder.Append(" set");
+            return this;
+        }
+        public PostgresStringBuilder Property(string prop)
+        {
+            _builder.Append($" {prop}");
+            return this;
+        }
+        
         public PostgresStringBuilder Table()
         {
             _builder.Append($" dbo.{_context.TableName}");

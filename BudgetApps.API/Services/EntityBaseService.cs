@@ -78,5 +78,28 @@ namespace BudgetApps.API.Services
 
             return response.SingleOrDefault();
         }
+
+        public T UpdateById<T>(Payload payload)
+        {
+            var baseConfig = EntityQueryConfig.GetConfigByType<T>();
+
+            var context = new QueryContext()
+            {
+                Command = QueryContext.CommandsDefinition.Update,
+                TableName = baseConfig.SnakeCasedClassName,
+                Field = new Field()
+                {
+                    FieldName = baseConfig.SnakeCasedIdName,
+                },
+                Id = payload.KeyValue,
+                Payload = payload
+            };
+
+            var query = _queryBuilder.BuildUpdateByIdQuery(context);
+
+            var response = SendRequest<T>(query);
+
+            return response.SingleOrDefault();
+        }
     }
 }

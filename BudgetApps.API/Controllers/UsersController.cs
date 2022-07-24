@@ -1,6 +1,6 @@
 ﻿using BudgetApps.API.Helpers;
 using BudgetApps.API.Interfaces;
-using BudgetApps.API.Models;
+using BudgetApps.API.Models.Auth;
 using Dapper;
 using Microsoft.AspNetCore.Mvc;
 using System;

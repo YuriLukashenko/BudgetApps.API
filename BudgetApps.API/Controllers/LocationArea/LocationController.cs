@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using BudgetApps.API.Helpers;
 using BudgetApps.API.Services.LocationArea;
+using BudgetApps.API.Models.Locations;
 
 namespace BudgetApps.API.Controllers.LocationArea
 {
@@ -23,6 +24,14 @@ namespace BudgetApps.API.Controllers.LocationArea
         public IActionResult GetCashLocations()
         {
             var response = _locationService.GetCashLocations();
+            return Ok(response);
+        }
+
+        [HttpPost("update")]
+        public IActionResult PostCashLocations(IEnumerable<LocationRequestDTO> request)
+        {
+            var response = _locationService.Update(request);
+
             return Ok(response);
         }
 

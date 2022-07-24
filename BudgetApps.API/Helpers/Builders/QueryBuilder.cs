@@ -28,5 +28,21 @@ namespace BudgetApps.API.Helpers.Builders
                 .Where(context.Id)
                 .Generate();
         }
+
+        public string BuildUpdateByIdQuery(QueryContext context)
+        {
+            return PostgresStringBuilder.Create(context)
+               .Command()
+               .Table()
+               .Set()
+               .Property(context.Payload.PropertyName)
+               .Equals()
+               .Value(context.Payload.PropertyValue)
+               .Where()
+               .Property(context.Payload.KeyName)
+               .Equals()
+               .Value(context.Payload.KeyValue.ToString())
+               .Generate();
+        }
     }
 }

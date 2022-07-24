@@ -1,7 +1,6 @@
 ﻿using BudgetApps.API.Entities;
 using BudgetApps.API.Helpers;
 using BudgetApps.API.Interfaces;
-using BudgetApps.API.Models;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -13,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BudgetApps.API.Helpers.Builders;
 using Dapper;
+using BudgetApps.API.Models.Auth;
 
 namespace BudgetApps.API.Services
 {
