@@ -167,17 +167,6 @@ namespace BudgetApps.API.Services.FluxArea
             return _deltaService.EvaluateDelta(source, BinDefenition.Month);
         }
 
-        public Flux Add()
-        {
-            var added = Insert(new Flux()
-            {
-                FtId = 1,
-                Value = 100.5,
-                Date = DateTime.Now,
-                Comment = "test text"
-            });
-
-            return added;
-        }
+        public Flux Add(Flux flux) => Insert(flux);
     }
 }

@@ -105,10 +105,10 @@ namespace BudgetApps.API.Controllers.Flux
             return Ok(responce);
         }
 
-        [HttpGet("add")]
-        public IActionResult AddFlux()
+        [HttpPost("add")]
+        public IActionResult AddFlux(Entities.FluxArea.Flux flux)
         {
-            var response = _fluxService.Add();
+            var response = _fluxService.Add(flux);
             return Ok(response);
         }
     }
