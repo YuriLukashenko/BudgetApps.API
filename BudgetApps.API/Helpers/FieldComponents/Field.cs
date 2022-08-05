@@ -7,6 +7,11 @@ namespace BudgetApps.API.Helpers.FieldComponents
 {
     public class Field
     {
+        public Field() { }
+        public Field(string name)
+        {
+            FieldName = name;
+        }
         public string FieldName { get; set; }
     }
 }

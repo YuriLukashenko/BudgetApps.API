@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using BudgetApps.API.Attributes;
 using BudgetApps.API.Helpers;
+using BudgetApps.API.Helpers.FieldComponents;
 
 namespace BudgetApps.API.DTOs
 {
@@ -26,6 +27,12 @@ namespace BudgetApps.API.DTOs
                 SnakeCasedClassName = NameMapper.ToSnakeCase(className),
                 SnakeCasedIdName = NameMapper.ToSnakeCase(idName)
             };
+        }
+
+        public static IEnumerable<Field> GetAllFieldsNames<T>()
+        {
+            var propertyInfos = typeof(T).GetProperties();
+            return propertyInfos.Select(x => new Field(x.Name));
         }
     }
 }

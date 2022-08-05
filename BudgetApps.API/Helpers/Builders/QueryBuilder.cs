@@ -44,5 +44,20 @@ namespace BudgetApps.API.Helpers.Builders
                .Value(context.Payload.KeyValue.ToString())
                .Generate();
         }
+
+        public string BuildInsertQuery(QueryContext context)
+        {
+            return PostgresStringBuilder.Create(context)
+                .Command()
+                .Table()
+                .Open()
+                .Fields(context.RawData.Keys)
+                .Close()
+                .ValuesCommand()
+                .Open()
+                .Values(context.RawData.Values)
+                .Close()
+                .Generate();
+        }
     }
 }

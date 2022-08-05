@@ -9,11 +9,12 @@ namespace BudgetApps.API.Helpers.Builders
 {
     public class QueryContext
     {
-        public enum CommandsDefinition { Select, Create, Update, Delete}
+        public enum CommandsDefinition { Select, Create, Update, Delete, InsertInto}
         public CommandsDefinition Command { get; set; }
         public string TableName { get; set; }
         public FieldOrder FieldOrder { get; set; }
         public Field Field { get; set; }
+        public IDictionary<string, string> RawData { get; set; }
         public int Id { get; set; }
         public Payload Payload { get; set; }
         public string GetCommandName() => GetCommandName(Command);
@@ -35,6 +36,7 @@ namespace BudgetApps.API.Helpers.Builders
             CommandsDefinition.Create => "create",
             CommandsDefinition.Update => "update",
             CommandsDefinition.Delete => "delete",
+            CommandsDefinition.InsertInto => "insert into",
             _ => throw new ArgumentOutOfRangeException(nameof(command), command, null)
         };
 

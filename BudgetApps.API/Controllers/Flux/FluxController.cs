@@ -105,6 +105,11 @@ namespace BudgetApps.API.Controllers.Flux
             return Ok(responce);
         }
 
-
+        [HttpGet("add")]
+        public IActionResult AddFlux()
+        {
+            var response = _fluxService.Add();
+            return Ok(response);
+        }
     }
 }

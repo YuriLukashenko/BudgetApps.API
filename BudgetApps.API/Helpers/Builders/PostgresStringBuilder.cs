@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BudgetApps.API.Helpers.FieldComponents;
 
 namespace BudgetApps.API.Helpers.Builders
 {
@@ -59,6 +60,12 @@ namespace BudgetApps.API.Helpers.Builders
             _builder.Append(" set");
             return this;
         }
+        public PostgresStringBuilder ValuesCommand()
+        {
+            _builder.Append(" values");
+            return this;
+        }
+
         public PostgresStringBuilder Property(string prop)
         {
             _builder.Append($" {prop}");
@@ -68,6 +75,18 @@ namespace BudgetApps.API.Helpers.Builders
         public PostgresStringBuilder Table()
         {
             _builder.Append($" dbo.{_context.TableName}");
+            return this;
+        }
+
+        public PostgresStringBuilder Open()
+        {
+            _builder.Append($" (");
+            return this;
+        }
+
+        public PostgresStringBuilder Close()
+        {
+            _builder.Append($")");
             return this;
         }
 
@@ -87,6 +106,40 @@ namespace BudgetApps.API.Helpers.Builders
         public PostgresStringBuilder Where(int id)
         {
             _builder.Append($" where {_context.TableName}.{_context.Field.FieldName}={id}");
+            return this;
+        }
+
+        public PostgresStringBuilder Fields(IEnumerable<string> fields)
+        {
+            var count = fields.Count();
+            var i = 0;
+            foreach (var field in fields)
+            {
+                _builder.Append($"{field}");
+                ++i;
+                if (i != count)
+                {
+                    _builder.Append(", ");
+                }
+            }
+            
+            return this;
+        }
+
+        public PostgresStringBuilder Values(IEnumerable<string> values)
+        {
+            var count = values.Count();
+            var i = 0;
+            foreach (var value in values)
+            {
+                _builder.Append($"{value}");
+                ++i;
+                if (i != count)
+                {
+                    _builder.Append(", ");
+                }
+            }
+
             return this;
         }
 

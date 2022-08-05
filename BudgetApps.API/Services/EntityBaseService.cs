@@ -6,6 +6,7 @@ using BudgetApps.API.Attributes;
 using BudgetApps.API.DTOs;
 using BudgetApps.API.Helpers;
 using BudgetApps.API.Helpers.Builders;
+using BudgetApps.API.Helpers.Extensions;
 using BudgetApps.API.Helpers.FieldComponents;
 using BudgetApps.API.Interfaces;
 using Dapper;
@@ -96,6 +97,24 @@ namespace BudgetApps.API.Services
             };
 
             var query = _queryBuilder.BuildUpdateByIdQuery(context);
+
+            var response = SendRequest<T>(query);
+
+            return response.SingleOrDefault();
+        }
+
+        public T Insert<T>(T obj)
+        {
+            var baseConfig = EntityQueryConfig.GetConfigByType<T>();
+
+            var context = new QueryContext()
+            {
+                Command = QueryContext.CommandsDefinition.InsertInto,
+                TableName = baseConfig.SnakeCasedClassName,
+                RawData = StructureConverter.GetRawData(obj)
+            };
+
+            var query = _queryBuilder.BuildInsertQuery(context);
 
             var response = SendRequest<T>(query);
 

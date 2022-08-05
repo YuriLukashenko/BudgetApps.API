@@ -166,5 +166,18 @@ namespace BudgetApps.API.Services.FluxArea
             var source = DeltaRequest.CreateFrom(monthProfits);
             return _deltaService.EvaluateDelta(source, BinDefenition.Month);
         }
+
+        public Flux Add()
+        {
+            var added = Insert(new Flux()
+            {
+                FtId = 1,
+                Value = 100.5,
+                Date = DateTime.Now,
+                Comment = "test text"
+            });
+
+            return added;
+        }
     }
 }
