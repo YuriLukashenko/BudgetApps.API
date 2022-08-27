@@ -111,5 +111,12 @@ namespace BudgetApps.API.Controllers.Flux
             var response = _fluxService.Add(flux);
             return Ok(response);
         }
+
+        [HttpGet("index/months/{year}/{month}")]
+        public IActionResult GetIndexMonth(int year, int month)
+        {
+            var response = _fluxService.GetMonthIndexPeriods(new DateTime(year, month, 1));
+            return Ok(response);
+        }
     }
 }

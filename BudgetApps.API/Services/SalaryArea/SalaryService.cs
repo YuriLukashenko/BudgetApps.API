@@ -149,7 +149,7 @@ namespace BudgetApps.API.Services.SalaryArea
         {
             var monthSalaries = GetTotalSalaryByMonths();
             var source = DeltaRequest.CreateFrom(monthSalaries);
-            return _deltaService.EvaluateDelta(source, BinDefenition.Month);
+            return _deltaService.EvaluateDelta(source, BinDefinition.Month);
         }
 
         public double GetPercentileRate(double percentile)

@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace BudgetApps.API.DTOs.Delta
+namespace BudgetApps.API.DTOs.IndexPeriod
 {
-    public enum BinDefinition { Year, Quarter, Month }
+    public class IndexRequest : BaseRequest
+    {
+
+    }
 }

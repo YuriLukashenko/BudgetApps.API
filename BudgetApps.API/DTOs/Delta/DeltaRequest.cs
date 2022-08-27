@@ -7,46 +7,7 @@ using System.Threading.Tasks;
 
 namespace BudgetApps.API.DTOs.Delta
 {
-    public class DeltaRequest
+    public class DeltaRequest : BaseRequest
     {
-        public DateTime Date { get; set; }
-
-        public double Value { get; set; }
-
-        public static IEnumerable<DeltaRequest> CreateFrom(IEnumerable<YearProfit> yearProfits)
-        {
-            return yearProfits.Select(x => new DeltaRequest()
-            {
-                Date = x.Date,
-                Value = x.YearSum
-            });
-        }
-
-        public static IEnumerable<DeltaRequest> CreateFrom(IEnumerable<MonthProfit> monthProfits)
-        {
-            return monthProfits.Select(x => new DeltaRequest()
-            {
-                Date = x.Date,
-                Value = x.MonthSum
-            });
-        }
-
-        public static IEnumerable<DeltaRequest> CreateFrom(IEnumerable<QuarterProfit> quarterProfits)
-        {
-            return quarterProfits.Select(x => new DeltaRequest()
-            {
-                Date = x.Date,
-                Value = x.QuarterSum
-            });
-        }
-
-        public static IEnumerable<DeltaRequest> CreateFrom(IEnumerable<SalaryTotalByMonths> monthSalaries)
-        {
-            return monthSalaries.Select(x => new DeltaRequest()
-            {
-                Date = x.Date.Value,
-                Value = x.Sum
-            });
-        }
     }
 }

@@ -4,12 +4,14 @@ using System.Linq;
 using BudgetApps.API.DTOs;
 using BudgetApps.API.DTOs.Delta;
 using BudgetApps.API.DTOs.Flux;
+using BudgetApps.API.DTOs.IndexPeriod;
 using BudgetApps.API.Entities.FluxArea;
+using BudgetApps.API.Helpers;
 using BudgetApps.API.Helpers.Builders;
 using BudgetApps.API.Interfaces;
 using BudgetApps.API.ViewModels;
 using Dapper;
-using static BudgetApps.API.DTOs.DeltaResponse;
+using static BudgetApps.API.DTOs.Delta.DeltaResponse;
 
 namespace BudgetApps.API.Services.FluxArea
 {
@@ -17,10 +19,14 @@ namespace BudgetApps.API.Services.FluxArea
     {
         private readonly IConnectionService _connectionService;
         private readonly DeltaService _deltaService;
-        public FluxService(IConnectionService connectionService, QueryBuilder queryBuilder, DeltaService deltaService) : base(connectionService, queryBuilder)
+        private readonly IndexPeriodService _indexPeriodService;
+        public FluxService(IConnectionService connectionService, QueryBuilder queryBuilder, 
+            DeltaService deltaService, IndexPeriodService indexPeriodService) 
+            : base(connectionService, queryBuilder)
         {
             _connectionService = connectionService;
             _deltaService = deltaService;
+            _indexPeriodService = indexPeriodService;
         }
 
         #region Entities
@@ -149,22 +155,29 @@ namespace BudgetApps.API.Services.FluxArea
         public IEnumerable<DeltaResponse> GetYearDeltas()
         {
             var yearProfits = GetFluxesYearProfits();
-            var source = DeltaRequest.CreateFrom(yearProfits);
-            return _deltaService.EvaluateDelta(source, BinDefenition.Year);
+            var source = BaseRequest.CreateFrom(yearProfits);
+            return _deltaService.EvaluateDelta(source, BinDefinition.Year);
         }
 
         public IEnumerable<DeltaResponse> GetQuarterDeltas()
         {
             var quarterProfits = GetFluxesQuarterProfits();
-            var source = DeltaRequest.CreateFrom(quarterProfits);
-            return _deltaService.EvaluateDelta(source, BinDefenition.Quarter);
+            var source = BaseRequest.CreateFrom(quarterProfits);
+            return _deltaService.EvaluateDelta(source, BinDefinition.Quarter);
         }
 
         public IEnumerable<DeltaResponse> GetMonthDeltas()
         {
             var monthProfits = GetFluxesMonthProfits();
-            var source = DeltaRequest.CreateFrom(monthProfits);
-            return _deltaService.EvaluateDelta(source, BinDefenition.Month);
+            var source = BaseRequest.CreateFrom(monthProfits);
+            return _deltaService.EvaluateDelta(source, BinDefinition.Month);
+        }
+
+        public IEnumerable<IndexResponse> GetMonthIndexPeriods(DateTime index)
+        {
+            var monthProfits = GetFluxesMonthProfits();
+            var source = BaseRequest.CreateFrom(monthProfits);
+            return _indexPeriodService.EvaluateIndexPeriod(source, BinDefinition.Month, index);
         }
 
         public Flux Add(Flux flux) => Insert(flux);
