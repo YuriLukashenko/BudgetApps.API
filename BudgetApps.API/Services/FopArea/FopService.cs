@@ -49,5 +49,24 @@ namespace BudgetApps.API.Services.FopArea
 
             return balances;
         }
+
+        public IEnumerable<FopBalance> Subtract(FopSubtractRequestDto request)
+        {
+            var currentFopBalance = GetFopBalances().FirstOrDefault(x => x.Type == request.Type);
+
+            if (currentFopBalance == null)
+                return null;
+
+            var dto = new List<FopRequestDTO>()
+            {
+                new FopRequestDTO()
+                {
+                    Type = request.Type,
+                    Value = currentFopBalance.Value - request.Value
+                }
+            };
+
+            return Update(dto);
+        }
     }
 }

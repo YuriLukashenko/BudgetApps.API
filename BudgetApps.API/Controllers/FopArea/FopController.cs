@@ -34,5 +34,13 @@ namespace BudgetApps.API.Controllers.FopArea
 
             return Ok(response);
         }
+
+        [HttpPost("subtract")]
+        public IActionResult PostSubtractFop(FopSubtractRequestDto request)
+        {
+            var response = _fopService.Subtract(request);
+
+            return Ok(response);
+        }
     }
 }

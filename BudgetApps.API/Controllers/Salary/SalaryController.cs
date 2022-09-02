@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BudgetApps.API.Entities.SalaryArea;
 using BudgetApps.API.Helpers;
 using BudgetApps.API.Services.SalaryArea;
 using Newtonsoft.Json;
@@ -164,6 +165,13 @@ namespace BudgetApps.API.Controllers.Salary
         public IActionResult GetInterquartile()
         {
             var response = _salaryService.GetInterquartile();
+            return Ok(response);
+        }
+
+        [HttpPost("converting/add")]
+        public IActionResult AddSalaryConverting(SalaryConverting salaryConverting)
+        {
+            var response = _salaryService.Add(salaryConverting);
             return Ok(response);
         }
     }

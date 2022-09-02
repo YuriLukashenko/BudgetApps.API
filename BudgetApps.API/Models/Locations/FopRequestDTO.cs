@@ -10,4 +10,10 @@ namespace BudgetApps.API.Models.Locations
         public double Value { get; set; }
         public string Type { get; set; }
     }
+
+    public class FopSubtractRequestDto
+    {
+        public double Value { get; set; }
+        public string Type { get; set; }
+    }
 }
