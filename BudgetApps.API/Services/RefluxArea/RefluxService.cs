@@ -203,5 +203,7 @@ namespace BudgetApps.API.Services.RefluxArea
                     MonthSum = x.Sum(y => y.Value)
                 });
         }
+
+        public Reflux Add(Reflux reflux) => Insert(reflux);
     }
 }

@@ -108,6 +108,13 @@ namespace BudgetApps.API.Controllers.Flux
             return Ok(response);
         }
 
+        [HttpPost("add")]
+        public IActionResult AddReflux(Entities.RefluxArea.Reflux reflux)
+        {
+            var response = _refluxService.Add(reflux);
+            return Ok(response);
+        }
+
         [HttpGet("categories/years")]
         public IActionResult GetRefluxByCaterogiesByYears()
         {
