@@ -67,5 +67,12 @@ namespace BudgetApps.API.Controllers
             var response = _totalValuesService.GetPercents();
             return Ok(response);
         }
+
+        [HttpGet("slices")]
+        public IActionResult GetSlices()
+        {
+            var response = _totalValuesService.GetSlices();
+            return Ok(response);
+        }
     }
 }

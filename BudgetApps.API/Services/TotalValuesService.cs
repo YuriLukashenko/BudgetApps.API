@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BudgetApps.API.DTOs.TotalValuesArea;
 using BudgetApps.API.Services.CreditArea;
 using BudgetApps.API.Services.DepositArea;
 using BudgetApps.API.Services.EwerArea;
@@ -127,13 +128,46 @@ namespace BudgetApps.API.Services
             var total = GetTotalValuesTotal();
 
             percents.Add("total_inuah", total);
-            percents.Add("percent_uah", Math.Round(GetTotalUah() / total * 100, 2));
-            percents.Add("percent_usd", Math.Round(GetTotalUsdInUah() / total * 100, 2));
-            percents.Add("percent_eur", Math.Round(GetTotalEurInUah() / total * 100, 2));
-            percents.Add("percent_pln", Math.Round(GetTotalPlnInUah() / total * 100, 2));
-            percents.Add("percent_fop", Math.Round(GetTotalFopInUah() / total * 100, 2));
+            percents.Add("percent_uah", CalculatePercent(GetTotalUah(), total));
+            percents.Add("percent_usd", CalculatePercent(GetTotalUsdInUah(), total));
+            percents.Add("percent_eur", CalculatePercent(GetTotalEurInUah(), total));
+            percents.Add("percent_pln", CalculatePercent(GetTotalPlnInUah(), total));
+            percents.Add("percent_fop", CalculatePercent(GetTotalFopInUah(), total));
 
             return percents;
+        }
+
+        public double GetAvailable()
+        {
+            //todo implement
+            return 0.0;
+        }
+
+        public double CalculatePercent(double value, double total)
+        {
+            return Math.Round(value / total * 100, 2);
+        }
+
+        public IEnumerable<Slice> GetSlices()
+        {
+            var totalUah = GetTotalUah();
+            var totalUsd = GetTotalUsdInUah();
+            var totalEur = GetTotalEurInUah();
+            var totalPln = GetTotalPlnInUah();
+            var totalFop = GetTotalFopInUah();
+            var total = GetTotalValuesTotal();
+            var available = GetAvailable();
+
+            return new List<Slice>()
+            {
+                new() { Name = "Total", Value = total, Percent = 100 },
+                new() { Name = "Available", Value = available, Percent = CalculatePercent(available, total) },
+                new() { Name = "UAH", Value = totalUah, Percent = CalculatePercent(totalUah, total) },
+                new() { Name = "USD", Value = totalUsd, Percent = CalculatePercent(totalUsd, total) },
+                new() { Name = "EUR", Value = totalEur, Percent = CalculatePercent(totalEur, total) },
+                new() { Name = "PLN", Value = totalPln, Percent = CalculatePercent(totalPln, total) },
+                new() { Name = "FOP", Value = totalFop, Percent = CalculatePercent(totalFop, total) },
+            };
         }
     }
 }
