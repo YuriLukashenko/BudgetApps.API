@@ -12,8 +12,11 @@ namespace BudgetApps.API.Services.EwerArea
 {
     public class EwerService : EntityBaseService
     {
-        public EwerService(IConnectionService connectionService, QueryBuilder queryBuilder) : base(connectionService, queryBuilder)
+        private readonly RateService _rateService;
+        public EwerService(IConnectionService connectionService, 
+            QueryBuilder queryBuilder, RateService rateService) : base(connectionService, queryBuilder)
         {
+            _rateService = rateService;
         }
 
         #region Entities
@@ -71,6 +74,8 @@ namespace BudgetApps.API.Services.EwerArea
 
         public double CommonEwerByEct(int ectId)
         {
+            if (ectId == 0) return 0;
+
             var ewer = GetEwersByEct(ectId);
             var commonEwerSpend = CommonEwerSpendByEct(ectId);
             var commonEwerCredit = CommonEwerCreditByEct(ectId);
@@ -97,6 +102,23 @@ namespace BudgetApps.API.Services.EwerArea
             var ewers = GetEwers();
 
             return ewers.Where(x => x.EctId == ectId).Sum(x => x.Value);
+        }
+
+        public double GetInUahUpToDate()
+        {
+            var commonEwerUah = CommonEwerByEct(GetEwerCurrencyTypeIdByName("UAH") ?? 0);
+            var commonEwerUsd = CommonEwerByEct(GetEwerCurrencyTypeIdByName("USD") ?? 0);
+            var commonEwerEur = CommonEwerByEct(GetEwerCurrencyTypeIdByName("EUR") ?? 0);
+            var commonEwerPln = CommonEwerByEct(GetEwerCurrencyTypeIdByName("PLN") ?? 0);
+
+            var rateUsd = _rateService.GetRateByName("USD");
+            var rateEur = _rateService.GetRateByName("EUR");
+            var ratePln = _rateService.GetRateByName("PLN");
+
+            return commonEwerUah
+                   + commonEwerUsd * rateUsd
+                   + commonEwerEur * rateEur
+                   + commonEwerPln * ratePln;
         }
     }
 }

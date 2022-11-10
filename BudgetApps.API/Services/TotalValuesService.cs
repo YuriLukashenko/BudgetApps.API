@@ -139,8 +139,12 @@ namespace BudgetApps.API.Services
 
         public double GetAvailable()
         {
-            //todo implement
-            return 0.0;
+            var currentCash = _currentCashService.GetCurrentCash();
+            var fundTotal = _fundService.FundTotal();
+            var commonEwerInUah = _ewerService.GetInUahUpToDate();
+            var fopInUah = GetTotalFopInUah();
+
+            return currentCash + fundTotal + commonEwerInUah + fopInUah;
         }
 
         public double CalculatePercent(double value, double total)
