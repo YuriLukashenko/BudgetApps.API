@@ -48,7 +48,7 @@ namespace BudgetApps.API.Services
             var credit = _creditService.ActiveSum();
             var commonEwer = _ewerService.CommonEwerByEct(id.Value);
             var commonEwerCredit = _ewerService.CommonEwerCreditByEct(id.Value);
-            var deposit = _depositService.ActiveSumByYear(DateTime.Today.Year);
+            var deposit = _depositService.ActiveSumByYear(DateTime.Today.Year, "UAH");
             var obligation = _obligationService.ActiveSumByYear(DateTime.Today.Year);
 
             return currentCash + fundTotal + fundBalance + credit + commonEwer + commonEwerCredit + deposit + obligation;
@@ -171,6 +171,64 @@ namespace BudgetApps.API.Services
                 new() { Name = "EUR", Value = totalEur, Percent = CalculatePercent(totalEur, total) },
                 new() { Name = "PLN", Value = totalPln, Percent = CalculatePercent(totalPln, total) },
                 new() { Name = "FOP", Value = totalFop, Percent = CalculatePercent(totalFop, total) },
+            };
+        }
+
+        public IEnumerable<CurrencyDetails> GetCurrencyDetails()
+        {
+            return new List<CurrencyDetails>()
+            {
+                new()
+                {
+                    Currency = "UAH", 
+                    Details = new Details()
+                    {
+                        CurrentCash =  _currentCashService.GetCurrentCash(),
+                        Fund = _fundService.FundTotal(),
+                        Balance = _fundService.FundBalance(),
+                        Credit = _creditService.ActiveSum(),
+                        Ewer = _ewerService.CommonEwerByEct(_ewerService.GetEwerCurrencyTypeIdByName("UAH") ?? 0),
+                        EwerCredit = _ewerService.CommonEwerCreditByEct(_ewerService.GetEwerCurrencyTypeIdByName("UAH") ?? 0),
+                        Deposit = _depositService.ActiveSumByYear(DateTime.Today.Year, "UAH"),
+                        Obligation = _obligationService.ActiveSumByYear(DateTime.Today.Year)
+                    }
+                },
+                new()
+                {
+                    Currency = "FOP",
+                    Details = new Details()
+                    {
+                        Total =  _fopService.GetWorkingBalance()
+                    }
+                },
+                new()
+                {
+                    Currency = "USD",
+                    Details = new Details()
+                    {
+                        Ewer = _ewerService.CommonEwerByEct(_ewerService.GetEwerCurrencyTypeIdByName("USD") ?? 0) - _depositService.ActiveSumByYear(DateTime.Today.Year, "USD"),
+                        EwerCredit = _ewerService.CommonEwerCreditByEct(_ewerService.GetEwerCurrencyTypeIdByName("USD") ?? 0),
+                        Deposit = _depositService.ActiveSumByYear(DateTime.Today.Year, "USD"),
+                    }
+                },
+                new()
+                {
+                    Currency = "EUR",
+                    Details = new Details()
+                    {
+                        Ewer = _ewerService.CommonEwerByEct(_ewerService.GetEwerCurrencyTypeIdByName("EUR") ?? 0),
+                        EwerCredit = _ewerService.CommonEwerCreditByEct(_ewerService.GetEwerCurrencyTypeIdByName("EUR") ?? 0),
+                    }
+                },
+                new()
+                {
+                    Currency = "PLN",
+                    Details = new Details()
+                    {
+                        Ewer = _ewerService.CommonEwerByEct(_ewerService.GetEwerCurrencyTypeIdByName("PLN") ?? 0),
+                        EwerCredit = _ewerService.CommonEwerCreditByEct(_ewerService.GetEwerCurrencyTypeIdByName("PLN") ?? 0),
+                    }
+                }
             };
         }
     }

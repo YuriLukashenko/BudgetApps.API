@@ -5,6 +5,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using BudgetApps.API.Helpers;
 using BudgetApps.API.Services;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Serialization;
 
 namespace BudgetApps.API.Controllers
 {
@@ -73,6 +76,17 @@ namespace BudgetApps.API.Controllers
         {
             var response = _totalValuesService.GetSlices();
             return Ok(response);
+        }
+
+        [HttpGet("details")]
+        public IActionResult GetCurrencyDetails()
+        {
+            var response = _totalValuesService.GetCurrencyDetails();
+            var json = JsonConvert.SerializeObject(response, Formatting.Indented, new JsonSerializerSettings()
+            {
+                ContractResolver = new CamelCasePropertyNamesContractResolver()
+            });
+            return Ok(json);
         }
     }
 }
