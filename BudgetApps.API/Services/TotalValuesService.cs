@@ -115,26 +115,31 @@ namespace BudgetApps.API.Services
             return total * rate;
         }
 
+        public double GetUsdDepositInUah()
+        {
+            var usdDeposit = _depositService.ActiveSumByYear(DateTime.Today.Year, "USD");
+            var rate = _rateService.GetRateByName("USD");
+            return usdDeposit * rate;
+        }
+
         public double GetTotalValuesTotal()
             => GetTotalUah() + GetTotalUsdInUah() 
                              + GetTotalEurInUah() 
                              + GetTotalPlnInUah() 
                              + GetTotalFopInUah();
 
-        public Dictionary<string, double> GetPercents()
+        public IEnumerable<PercentDto> GetPercents()
         {
-            var percents = new Dictionary<string, double>();
-
             var total = GetTotalValuesTotal();
 
-            percents.Add("total_inuah", total);
-            percents.Add("percent_uah", CalculatePercent(GetTotalUah(), total));
-            percents.Add("percent_usd", CalculatePercent(GetTotalUsdInUah(), total));
-            percents.Add("percent_eur", CalculatePercent(GetTotalEurInUah(), total));
-            percents.Add("percent_pln", CalculatePercent(GetTotalPlnInUah(), total));
-            percents.Add("percent_fop", CalculatePercent(GetTotalFopInUah(), total));
-
-            return percents;
+            return new List<PercentDto>()
+            {
+                new() { CurrencyType = "uah", Percent = CalculatePercent(GetTotalUah(), total) },
+                new() { CurrencyType = "usd", Percent = CalculatePercent(GetTotalUsdInUah(), total) },
+                new() { CurrencyType = "eur", Percent = CalculatePercent(GetTotalEurInUah(), total) },
+                new() { CurrencyType = "pln", Percent = CalculatePercent(GetTotalPlnInUah(), total) },
+                new() { CurrencyType = "fop", Percent = CalculatePercent(GetTotalFopInUah(), total) }
+            };
         }
 
         public double GetAvailable()
@@ -142,9 +147,10 @@ namespace BudgetApps.API.Services
             var currentCash = _currentCashService.GetCurrentCash();
             var fundTotal = _fundService.FundTotal();
             var commonEwerInUah = _ewerService.GetInUahUpToDate();
+            var usdDepositInUah = GetUsdDepositInUah();
             var fopInUah = GetTotalFopInUah();
 
-            return currentCash + fundTotal + commonEwerInUah + fopInUah;
+            return currentCash + fundTotal + commonEwerInUah + fopInUah - usdDepositInUah;
         }
 
         public double CalculatePercent(double value, double total)
@@ -172,6 +178,12 @@ namespace BudgetApps.API.Services
                 new() { Name = "PLN", Value = totalPln, Percent = CalculatePercent(totalPln, total) },
                 new() { Name = "FOP", Value = totalFop, Percent = CalculatePercent(totalFop, total) },
             };
+        }
+
+        public double CommonEwerWithoutUsdDeposit()
+        {
+            return _ewerService.CommonEwerByEct(_ewerService.GetEwerCurrencyTypeIdByName("USD") ?? 0)
+                   - _depositService.ActiveSumByYear(DateTime.Today.Year, "USD");
         }
 
         public IEnumerable<CurrencyDetails> GetCurrencyDetails()
@@ -206,7 +218,7 @@ namespace BudgetApps.API.Services
                     Currency = "USD",
                     Details = new Details()
                     {
-                        Ewer = _ewerService.CommonEwerByEct(_ewerService.GetEwerCurrencyTypeIdByName("USD") ?? 0) - _depositService.ActiveSumByYear(DateTime.Today.Year, "USD"),
+                        Ewer = CommonEwerWithoutUsdDeposit(),
                         EwerCredit = _ewerService.CommonEwerCreditByEct(_ewerService.GetEwerCurrencyTypeIdByName("USD") ?? 0),
                         Deposit = _depositService.ActiveSumByYear(DateTime.Today.Year, "USD"),
                     }
