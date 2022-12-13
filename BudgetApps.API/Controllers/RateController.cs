@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BudgetApps.API.Entities;
 using BudgetApps.API.Helpers;
 using BudgetApps.API.Services;
 
@@ -30,6 +31,20 @@ namespace BudgetApps.API.Controllers
         public IActionResult GetCurrentRateByName(string name)
         {
             var response = _currentRateService.GetRateByName(name);
+            return Ok(response);
+        }
+
+        [HttpGet("last")]
+        public IActionResult GetCurrentRatesLast()
+        {
+            var response = _currentRateService.GetLast();
+            return Ok(response);
+        }
+
+        [HttpPost("add")]
+        public IActionResult PostCurrentRates([FromBody] CurrentRate currentRate)
+        {
+            var response = _currentRateService.Add(currentRate);
             return Ok(response);
         }
 
