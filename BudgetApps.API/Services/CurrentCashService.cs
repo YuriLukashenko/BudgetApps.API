@@ -111,8 +111,8 @@ namespace BudgetApps.API.Services
             return outcomeSum - betSum - commissions;
         }
 
-        public double DepositSum() => _depositService.ActiveSumByYear(DateTime.Today.Year, "UAH");
+        public double DepositSum() => _depositService.ActiveSumByCurrency("UAH");
 
-        public double ObligationSum() => _obligationService.ActiveSumByYear(DateTime.Today.Year);
+        public double ObligationSum() => _obligationService.ActiveSum();
     }
 }

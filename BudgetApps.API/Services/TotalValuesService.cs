@@ -48,8 +48,8 @@ namespace BudgetApps.API.Services
             var credit = _creditService.ActiveSum();
             var commonEwer = _ewerService.CommonEwerByEct(id.Value);
             var commonEwerCredit = _ewerService.CommonEwerCreditByEct(id.Value);
-            var deposit = _depositService.ActiveSumByYear(DateTime.Today.Year, "UAH");
-            var obligation = _obligationService.ActiveSumByYear(DateTime.Today.Year);
+            var deposit = _depositService.ActiveSumByCurrency("UAH");
+            var obligation = _obligationService.ActiveSum();
 
             return currentCash + fundTotal + fundBalance + credit + commonEwer + commonEwerCredit + deposit + obligation;
         }
@@ -117,7 +117,7 @@ namespace BudgetApps.API.Services
 
         public double GetUsdDepositInUah()
         {
-            var usdDeposit = _depositService.ActiveSumByYear(DateTime.Today.Year, "USD");
+            var usdDeposit = _depositService.ActiveSumByCurrency("USD");
             var rate = _rateService.GetRateByName("USD");
             return usdDeposit * rate;
         }
@@ -183,7 +183,7 @@ namespace BudgetApps.API.Services
         public double CommonEwerWithoutUsdDeposit()
         {
             return _ewerService.CommonEwerByEct(_ewerService.GetEwerCurrencyTypeIdByName("USD") ?? 0)
-                   - _depositService.ActiveSumByYear(DateTime.Today.Year, "USD");
+                   - _depositService.ActiveSumByCurrency("USD");
         }
 
         public IEnumerable<CurrencyDetails> GetCurrencyDetails()
@@ -201,8 +201,8 @@ namespace BudgetApps.API.Services
                         Credit = _creditService.ActiveSum(),
                         Ewer = _ewerService.CommonEwerByEct(_ewerService.GetEwerCurrencyTypeIdByName("UAH") ?? 0),
                         EwerCredit = _ewerService.CommonEwerCreditByEct(_ewerService.GetEwerCurrencyTypeIdByName("UAH") ?? 0),
-                        Deposit = _depositService.ActiveSumByYear(DateTime.Today.Year, "UAH"),
-                        Obligation = _obligationService.ActiveSumByYear(DateTime.Today.Year)
+                        Deposit = _depositService.ActiveSumByCurrency("UAH"),
+                        Obligation = _obligationService.ActiveSum()
                     }
                 },
                 new()
@@ -220,7 +220,7 @@ namespace BudgetApps.API.Services
                     {
                         Ewer = CommonEwerWithoutUsdDeposit(),
                         EwerCredit = _ewerService.CommonEwerCreditByEct(_ewerService.GetEwerCurrencyTypeIdByName("USD") ?? 0),
-                        Deposit = _depositService.ActiveSumByYear(DateTime.Today.Year, "USD"),
+                        Deposit = _depositService.ActiveSumByCurrency("USD"),
                     }
                 },
                 new()

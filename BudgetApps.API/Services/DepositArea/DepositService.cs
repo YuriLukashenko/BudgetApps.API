@@ -35,11 +35,28 @@ namespace BudgetApps.API.Services.DepositArea
             return deposits.Where(x => x.Date.Year == year && x.EctId == ectId);
         }
 
+        public IEnumerable<Deposit> GetDepositsByCurrency(string currency)
+        {
+            var ectId = _ewerService.GetEwerCurrencyTypeIdByName(currency);
+            if (ectId == 0) return null;
+
+            var deposits = GetDeposits();
+
+            return deposits.Where(x => x.EctId == ectId);
+        }
+
         #endregion
 
         public double ActiveSumByYear(int year, string currency)
         {
             var deposits = GetDepositsByYear(year, currency);
+
+            return deposits.Sum(x => x.Value);
+        }
+
+        public double ActiveSumByCurrency(string currency)
+        {
+            var deposits = GetDepositsByCurrency(currency);
 
             return deposits.Sum(x => x.Value);
         }

@@ -34,5 +34,11 @@ namespace BudgetApps.API.Services.ObligationArea
             var obligations = GetObligations();
             return obligations.Where(x => x.StartDate.Year == todayYear).Sum(x => x.Value);
         }
+
+        public double ActiveSum()
+        {
+            var obligations = GetObligations();
+            return obligations.Sum(x => x.Value);
+        }
     }
 }
