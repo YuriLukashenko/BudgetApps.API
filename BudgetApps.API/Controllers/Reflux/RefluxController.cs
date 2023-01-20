@@ -121,5 +121,12 @@ namespace BudgetApps.API.Controllers.Flux
             var response = _refluxService.GetRefluxByCategoriesByYears();
             return Ok(response);
         }
+
+        [HttpGet("last/{count}")]
+        public IActionResult GetLast(int count)
+        {
+            var response = _refluxService.GetLast(count);
+            return Ok(response);
+        }
     }
 }

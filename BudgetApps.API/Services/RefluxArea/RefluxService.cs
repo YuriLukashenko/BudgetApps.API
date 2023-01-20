@@ -205,5 +205,12 @@ namespace BudgetApps.API.Services.RefluxArea
         }
 
         public Reflux Add(Reflux reflux) => Insert(reflux);
+
+        public IEnumerable<Reflux> GetLast(int count)
+        {
+            var refluxes = GetRefluxes();
+
+            return refluxes.OrderByDescending(x => x.Date).Take(count);
+        }
     }
 }
