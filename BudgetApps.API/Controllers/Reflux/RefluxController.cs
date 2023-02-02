@@ -48,6 +48,20 @@ namespace BudgetApps.API.Controllers.Flux
             return Ok(response);
         }
 
+        [HttpGet("year/spend")]
+        public IActionResult GetRefluxYearSpend()
+        {
+            var response = _refluxService.GetRefluxesYear();
+            return Ok(response);
+        }
+
+        [HttpGet("year/spend/{type}")]
+        public IActionResult GetRefluxYearSpend(int type)
+        {
+            var response = _refluxService.GetRefluxesYearByCategory(type);
+            return Ok(response);
+        }
+
         [HttpGet("month/spend/{year}")]
         public IActionResult GetRefluxMonthSpendByYear(int year)
         {

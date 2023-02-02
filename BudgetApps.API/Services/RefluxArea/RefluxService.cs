@@ -47,6 +47,75 @@ namespace BudgetApps.API.Services.RefluxArea
                 });
         }
 
+        public IEnumerable<YearReflux> GetRefluxesYear()
+        {
+            var refluxHistory = GetRefluxHistories();
+            var refluxes = GetRefluxes();
+
+            var yearRefluxes = refluxes
+                .GroupBy(x => new { x.Date.Year })
+                .OrderBy(x => x.First().Date)
+                .Select(x => new YearReflux()
+                {
+                    RId = x.First().RId,
+                    Date = x.First().Date,
+                    YearSum = x.Sum(y => y.Value)
+                });
+
+            var yearRefluxesFromHistory = refluxHistory
+                .GroupBy(x => new { x.Date.Year })
+                .OrderBy(x => x.First().Date)
+                .Select(x => new YearReflux()
+                {
+                    RId = x.First().RhId,
+                    Date = x.First().Date,
+                    YearSum = x.Sum(y => y.Value)
+                });
+
+            var result = new List<YearReflux>();
+
+            result.AddRange(yearRefluxesFromHistory);
+            result.AddRange(yearRefluxes);
+
+            return result;
+        }
+
+        public IEnumerable<YearReflux> GetRefluxesYearByCategory(int typeId)
+        {
+            var refluxHistory = GetRefluxHistories();
+            var refluxes = GetRefluxes();
+
+            var yearRefluxes = refluxes
+                .Where(x => x.RtId == typeId)
+                .GroupBy(x => new { x.Date.Year })
+                .OrderBy(x => x.First().Date)
+                .Select(x => new YearReflux()
+                {
+                    RId = x.First().RId,
+                    Date = x.First().Date,
+                    YearSum = x.Sum(y => y.Value)
+                });
+
+            var yearRefluxesFromHistory = refluxHistory
+                .Where(x => x.RtId == typeId)
+                .GroupBy(x => new { x.Date.Year })
+                .OrderBy(x => x.First().Date)
+                .Select(x => new YearReflux()
+                {
+                    RId = x.First().RhId,
+                    Date = x.First().Date,
+                    YearSum = x.Sum(y => y.Value)
+                });
+
+            var result = new List<YearReflux>();
+
+            result.AddRange(yearRefluxesFromHistory);
+            result.AddRange(yearRefluxes);
+
+            return result;
+        }
+
+
         public IEnumerable<MonthReflux> GetRefluxesMonthByYear(int year)
         {
             var refluxHistory = GetRefluxHistories();
