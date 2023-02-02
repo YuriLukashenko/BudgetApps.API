@@ -35,8 +35,19 @@ namespace BudgetApps.API.Services.RefluxArea
         public IEnumerable<MonthReflux> GetRefluxesMonth()
         {
             var refluxHistory = GetRefluxHistories();
+            var refluxes = GetRefluxes();
 
-            return refluxHistory
+            var monthRefluxes = refluxes
+                .GroupBy(x => new { x.Date.Year, x.Date.Month })
+                .OrderBy(x => x.First().Date)
+                .Select(x => new MonthReflux()
+                {
+                    RId = x.First().RId,
+                    Date = x.First().Date,
+                    MonthSum = x.Sum(y => y.Value)
+                });
+
+            var monthRefluxesFromHistory = refluxHistory
                 .GroupBy(x => new { x.Date.Year, x.Date.Month })
                 .OrderBy(x => x.First().Date)
                 .Select(x => new MonthReflux()
@@ -45,7 +56,50 @@ namespace BudgetApps.API.Services.RefluxArea
                     Date = x.First().Date,
                     MonthSum = x.Sum(y => y.Value)
                 });
+
+            var result = new List<MonthReflux>();
+
+            result.AddRange(monthRefluxesFromHistory);
+            result.AddRange(monthRefluxes);
+
+            return result;
         }
+
+        public IEnumerable<MonthReflux> GetRefluxesMonthByCategory(int typeId)
+        {
+            var refluxHistory = GetRefluxHistories();
+            var refluxes = GetRefluxes();
+
+            var monthRefluxes = refluxes
+                .Where(x => x.RtId == typeId)
+                .GroupBy(x => new { x.Date.Year, x.Date.Month })
+                .OrderBy(x => x.First().Date)
+                .Select(x => new MonthReflux()
+                {
+                    RId = x.First().RId,
+                    Date = x.First().Date,
+                    MonthSum = x.Sum(y => y.Value)
+                });
+
+            var monthRefluxesFromHistory = refluxHistory
+                .Where(x => x.RtId == typeId)
+                .GroupBy(x => new { x.Date.Year, x.Date.Month })
+                .OrderBy(x => x.First().Date)
+                .Select(x => new MonthReflux()
+                {
+                    RId = x.First().RhId,
+                    Date = x.First().Date,
+                    MonthSum = x.Sum(y => y.Value)
+                });
+
+            var result = new List<MonthReflux>();
+
+            result.AddRange(monthRefluxesFromHistory);
+            result.AddRange(monthRefluxes);
+
+            return result;
+        }
+
 
         public IEnumerable<YearReflux> GetRefluxesYear()
         {
