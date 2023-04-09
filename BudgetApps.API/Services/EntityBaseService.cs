@@ -103,7 +103,14 @@ namespace BudgetApps.API.Services
             return response.SingleOrDefault();
         }
 
-        public T Insert<T>(T obj)
+        public T Insert<T>(QueryContext context)
+        {
+            var query = _queryBuilder.BuildInsertQuery(context);
+            var response = SendRequest<T>(query);
+            return response.SingleOrDefault();
+        }
+
+        public T SafeInsert<T>(T obj)
         {
             var baseConfig = EntityQueryConfig.GetConfigByType<T>();
 
@@ -111,13 +118,28 @@ namespace BudgetApps.API.Services
             {
                 Command = QueryContext.CommandsDefinition.InsertInto,
                 TableName = baseConfig.SnakeCasedClassName,
+                Field = new Field()
+                {
+                    FieldName = baseConfig.SnakeCasedIdName,
+                },
                 RawData = StructureConverter.GetRawData(obj)
             };
 
-            var query = _queryBuilder.BuildInsertQuery(context);
+            try
+            {
+                return Insert<T>(context);
+            }
+            catch
+            {
+                ResetId<T>(context);
+                return Insert<T>(context);
+            }
+        }
 
+        public T ResetId<T>(QueryContext context)
+        {
+            var query = _queryBuilder.BuildResetIdQuery(context);
             var response = SendRequest<T>(query);
-
             return response.SingleOrDefault();
         }
     }

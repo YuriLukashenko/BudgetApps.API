@@ -229,6 +229,6 @@ namespace BudgetApps.API.Services.SalaryArea
             return result;
         }
 
-        public SalaryConverting Add(SalaryConverting salaryConverting) => Insert(salaryConverting);
+        public SalaryConverting Add(SalaryConverting salaryConverting) => SafeInsert(salaryConverting);
     }
 }

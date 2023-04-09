@@ -180,6 +180,6 @@ namespace BudgetApps.API.Services.FluxArea
             return _indexPeriodService.EvaluateIndexPeriod(source, BinDefinition.Month, index);
         }
 
-        public Flux Add(Flux flux) => Insert(flux);
+        public Flux Add(Flux flux) => SafeInsert(flux);
     }
 }

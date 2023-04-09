@@ -59,5 +59,12 @@ namespace BudgetApps.API.Helpers.Builders
                 .Close()
                 .Generate();
         }
+
+        public string BuildResetIdQuery(QueryContext context)
+        {
+            return PostgresStringBuilder.Create(context)
+                .ResetId(context.TableName, context.Field.FieldName)
+                .Generate();
+        }
     }
 }

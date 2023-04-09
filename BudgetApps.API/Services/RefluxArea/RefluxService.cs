@@ -327,7 +327,7 @@ namespace BudgetApps.API.Services.RefluxArea
                 });
         }
 
-        public Reflux Add(Reflux reflux) => Insert(reflux);
+        public Reflux Add(Reflux reflux) => SafeInsert(reflux);
 
         public IEnumerable<Reflux> GetLast(int count)
         {

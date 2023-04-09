@@ -147,5 +147,14 @@ namespace BudgetApps.API.Helpers.Builders
         {
             return _builder.ToString();
         }
+
+        public PostgresStringBuilder ResetId(string tableName, string idName)
+        {
+            _builder.Append("SELECT SETVAL(");
+            _builder.Append($"(SELECT PG_GET_SERIAL_SEQUENCE('dbo.{tableName}', '{idName}')),");
+            _builder.Append($"(SELECT (MAX({idName}) + 1) FROM dbo.{tableName})");
+            _builder.Append(", FALSE);");
+            return this;
+        }
     }
 }

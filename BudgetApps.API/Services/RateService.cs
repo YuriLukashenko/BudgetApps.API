@@ -39,7 +39,7 @@ namespace BudgetApps.API.Services
             return 1;
         }
 
-        public CurrentRate Add(CurrentRate currentRate) => Insert(currentRate);
+        public CurrentRate Add(CurrentRate currentRate) => SafeInsert(currentRate);
 
         #endregion
     }
