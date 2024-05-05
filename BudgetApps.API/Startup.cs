@@ -30,6 +30,7 @@ using BudgetApps.API.Services.FundArea;
 using BudgetApps.API.Services.LocationArea;
 using BudgetApps.API.Services.ObligationArea;
 using BudgetApps.API.Services.RefluxArea;
+using BudgetApps.API.Services.RequiredBills;
 using BudgetApps.API.Services.SalaryArea;
 using BudgetApps.API.Services.StackArea;
 
@@ -76,6 +77,8 @@ namespace BudgetApps.API
             services.AddScoped<ArmyService>();
             services.AddScoped<DepositService>();
             services.AddScoped<ObligationService>();
+            services.AddScoped<RequiredBillsService>();
+
 
             services.AddScoped<CurrentCashService>();
             services.AddScoped<TotalValuesService>();
