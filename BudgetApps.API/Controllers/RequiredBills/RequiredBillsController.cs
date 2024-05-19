@@ -1,4 +1,5 @@
-﻿using BudgetApps.API.Helpers;
+﻿using BudgetApps.API.Entities.RequiredBills;
+using BudgetApps.API.Helpers;
 using BudgetApps.API.Services.RefluxArea;
 using BudgetApps.API.Services.RequiredBills;
 using Microsoft.AspNetCore.Authorization;
@@ -16,11 +17,17 @@ namespace BudgetApps.API.Controllers.RequiredBills
             _requiredBillsService = requiredBillsService;
         }
 
-        [AllowAnonymous]
         [HttpGet("categories")]
         public IActionResult GetCurrent()
         {
-            var response = _requiredBillsService.GetCategories();
+            var response = _requiredBillsService.GetActiveCategories();
+            return Ok(response);
+        }
+
+        [HttpPost("add")]
+        public IActionResult Add(RequiredBillPayed payed)
+        {
+            var response = _requiredBillsService.Add(payed);
             return Ok(response);
         }
     }

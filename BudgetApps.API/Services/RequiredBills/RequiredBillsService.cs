@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using BudgetApps.API.Entities.FluxArea;
 using BudgetApps.API.Entities.RefluxArea;
 using BudgetApps.API.Entities.RequiredBills;
 using BudgetApps.API.Helpers.Builders;
@@ -20,5 +22,14 @@ namespace BudgetApps.API.Services.RequiredBills
         {
             return GetAll<RequiredBillCategory>();
         }
+
+        public IEnumerable<RequiredBillCategory> GetActiveCategories()
+        {
+            var categories = GetCategories();
+
+            return categories.Where(x => !x.IsArchive);
+        }
+
+        public RequiredBillPayed Add(RequiredBillPayed payed) => SafeInsert(payed);
     }
 }
