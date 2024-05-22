@@ -6,7 +6,7 @@ namespace BudgetApps.API.Entities.RequiredBills
     public class RequiredBillPrice
     {
         [Identifier]
-        public int RId { get; set; }
+        public int Id { get; set; }
         public int CategoryId { get; set; }
         public double Value { get; set; }
         public DateTime Date { get; set; }

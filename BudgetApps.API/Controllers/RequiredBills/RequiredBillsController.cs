@@ -18,9 +18,16 @@ namespace BudgetApps.API.Controllers.RequiredBills
         }
 
         [HttpGet("categories")]
-        public IActionResult GetCurrent()
+        public IActionResult GetActiveCategories()
         {
             var response = _requiredBillsService.GetActiveCategories();
+            return Ok(response);
+        }
+
+        [HttpGet("current")]
+        public IActionResult GetCurrent()
+        {
+            var response = _requiredBillsService.GetCurrentBills();
             return Ok(response);
         }
 
