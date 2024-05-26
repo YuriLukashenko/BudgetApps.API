@@ -14,7 +14,7 @@ namespace BudgetApps.API.Services.RequiredBills
     public class RequiredBillsService : EntityBaseService
     {
         private readonly IConnectionService _connectionService;
-
+        private const int INSURANCE_CATEGORY = 12;
         public RequiredBillsService(IConnectionService connectionService, QueryBuilder queryBuilder) : base(connectionService, queryBuilder)
         {
             _connectionService = connectionService;
@@ -61,9 +61,24 @@ namespace BudgetApps.API.Services.RequiredBills
 
         public IEnumerable<RequiredBillCategory> GetActiveCategories()
         {
-            var categories = GetCategories();
+            var categories = GetCategories().Where(x => !x.IsArchive);
+            var specificCategories = SpecialLogic(categories);
+            return specificCategories;
+        }
 
-            return categories.Where(x => !x.IsArchive);
+        private IEnumerable<RequiredBillCategory> SpecialLogic(IEnumerable<RequiredBillCategory> categories)
+        {
+            var acceptedMonths = new List<int> { 1, 4, 7, 10 };
+            var nowMonth = DateTime.Now.Month;
+            var categoriesList = categories.ToList();
+
+            if (acceptedMonths.All(x => x != nowMonth))
+            {
+                var toRemove = categoriesList.FirstOrDefault(x => x.Id == INSURANCE_CATEGORY);
+                categoriesList.Remove(toRemove);
+            }
+
+            return categoriesList;
         }
 
         public IEnumerable<CurrentBillDto> GetCurrentBills()
