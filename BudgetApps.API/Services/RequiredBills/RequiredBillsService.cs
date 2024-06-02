@@ -105,6 +105,19 @@ namespace BudgetApps.API.Services.RequiredBills
             return bills;
         }
 
+        public CurrentBillDto GetCurrentBillsTotal()
+        {
+            var currentBills = GetCurrentBills().ToList();
+
+            return new CurrentBillDto()
+            {
+                Category = "Total",
+                ActualBill = currentBills.Sum(x => x.ActualBill),
+                RequiredBill = currentBills.Sum(x => x.RequiredBill),
+                IsCompleted = currentBills.All(x => x.IsCompleted)
+            };
+        }
+
         public RequiredBillPayed Add(RequiredBillPayed payed) => SafeInsert(payed);
     }
 }

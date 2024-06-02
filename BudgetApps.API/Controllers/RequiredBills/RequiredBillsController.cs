@@ -31,6 +31,13 @@ namespace BudgetApps.API.Controllers.RequiredBills
             return Ok(response);
         }
 
+        [HttpGet("total")]
+        public IActionResult GetCurrentTotal()
+        {
+            var response = _requiredBillsService.GetCurrentBillsTotal();
+            return Ok(response);
+        }
+
         [HttpPost("add")]
         public IActionResult Add(RequiredBillPayed payed)
         {
