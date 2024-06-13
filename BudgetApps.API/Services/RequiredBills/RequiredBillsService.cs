@@ -96,7 +96,8 @@ namespace BudgetApps.API.Services.RequiredBills
                     Category = category.Name,
                     RequiredBill = requiredBill,
                     ActualBill = actualBill,
-                    IsCompleted = actualBill >= requiredBill
+                    IsCompleted = actualBill >= requiredBill,
+                    Type = category.Type
                 };
 
                 bills.Add(bill);
@@ -105,9 +106,15 @@ namespace BudgetApps.API.Services.RequiredBills
             return bills;
         }
 
-        public CurrentBillDto GetCurrentBillsTotal()
+        public IEnumerable<CurrentBillDto> GetCurrentBillsByType(BillTypeDefinition type)
         {
-            var currentBills = GetCurrentBills().ToList();
+            var response = GetCurrentBills();
+            return response.Where(x => x.Type == type);
+        }
+
+        public CurrentBillDto GetCurrentBillsTotal(BillTypeDefinition type)
+        {
+            var currentBills = GetCurrentBillsByType(type).ToList();
 
             return new CurrentBillDto()
             {

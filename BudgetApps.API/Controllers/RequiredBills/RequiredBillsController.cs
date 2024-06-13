@@ -24,17 +24,19 @@ namespace BudgetApps.API.Controllers.RequiredBills
             return Ok(response);
         }
 
-        [HttpGet("current")]
-        public IActionResult GetCurrent()
+        [HttpGet("current/{type}")]
+        public IActionResult GetCurrent(int type)
         {
-            var response = _requiredBillsService.GetCurrentBills();
+            var billType = (BillTypeDefinition) type;
+            var response = _requiredBillsService.GetCurrentBillsByType(billType);
             return Ok(response);
         }
 
-        [HttpGet("total")]
-        public IActionResult GetCurrentTotal()
+        [HttpGet("total/{type}")]
+        public IActionResult GetCurrentTotal(int type)
         {
-            var response = _requiredBillsService.GetCurrentBillsTotal();
+            var billType = (BillTypeDefinition)type;
+            var response = _requiredBillsService.GetCurrentBillsTotal(billType);
             return Ok(response);
         }
 
