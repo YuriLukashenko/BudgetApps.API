@@ -1,4 +1,5 @@
-﻿using BudgetApps.API.Entities.RequiredBills;
+﻿using BudgetApps.API.DTOs.RequiredBills;
+using BudgetApps.API.Entities.RequiredBills;
 using BudgetApps.API.Helpers;
 using BudgetApps.API.Services.RefluxArea;
 using BudgetApps.API.Services.RequiredBills;
@@ -44,6 +45,13 @@ namespace BudgetApps.API.Controllers.RequiredBills
         public IActionResult Add(RequiredBillPayed payed)
         {
             var response = _requiredBillsService.Add(payed);
+            return Ok(response);
+        }
+
+        [HttpPost("selected")]
+        public IActionResult GetSelectedBill(DateBillDto dto)
+        {
+            var response = _requiredBillsService.GetBillsBy(dto);
             return Ok(response);
         }
     }
